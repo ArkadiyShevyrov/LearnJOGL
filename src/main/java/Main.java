@@ -18,7 +18,7 @@ public class Main {
         glWindow.setVisible(true);
         glWindow.addGLEventListener(new RawGL2ES2demo());
         glWindow.display();
-        FPSAnimator animator = new FPSAnimator(120, true);
+        FPSAnimator animator = new FPSAnimator(60, true);
         animator.add(glWindow);
         animator.start();
     }

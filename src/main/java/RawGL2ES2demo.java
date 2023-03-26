@@ -70,13 +70,8 @@ public class RawGL2ES2demo implements GLEventListener {
     }
     @Override
     public void init(GLAutoDrawable drawable) {
-        // called when the panel is created
         GL2 gl = drawable.getGL().getGL2();
         gl.glClearColor(0.8F, 0.8F, 0.8F, 1.0F);
-        gl.glEnable(GL.GL_DEPTH_TEST);
-        gl.glEnable(GL2.GL_LIGHTING);
-        gl.glEnable(GL2.GL_LIGHT0);
-        gl.glEnable(GL2.GL_COLOR_MATERIAL);
     }
 
     @Override
@@ -93,7 +88,7 @@ public class RawGL2ES2demo implements GLEventListener {
 
         gl.glMatrixMode(GL2.GL_PROJECTION);  // Set up the projection.
         gl.glLoadIdentity();
-        gl.glOrtho(-1,1,-1,1,-2,2);
+//        gl.glMultMatrixd();
         gl.glMatrixMode(GL2.GL_MODELVIEW);
 
         gl.glLoadIdentity();             // Set up modelview transform.
@@ -105,25 +100,9 @@ public class RawGL2ES2demo implements GLEventListener {
 
         gl.glColor3f(1, 1, 1);
 
-        gl.glEnable(GL2.GL_DEPTH_TEST);
+        drawCube(gl, 0.7f);
 
-
-        //////////////////
-        gl.glCullFace(GL2.GL_FRONT);
-        this.drawCube(gl, 0.7f);
-
-
-        /////////////////
-        gl.glCullFace(GL2.GL_BACK);
-
-        gl.glPushAttrib(GL2.GL_ENABLE_BIT);
-        gl.glLineStipple(1, (short)0xAAAA);
-        gl.glEnable(GL2.GL_LINE_STIPPLE);
-
-        this.drawCube(gl, 0.7f);
-
-        gl.glDisable(GL2.GL_LINE_STIPPLE);
-        gl.glPopAttrib();
+        drawCube(gl, 0.5f);
     }
 
     @Override
