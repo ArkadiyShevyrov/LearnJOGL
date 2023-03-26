@@ -2,72 +2,25 @@ import com.jogamp.opengl.GL;
 import com.jogamp.opengl.GL2;
 import com.jogamp.opengl.GLAutoDrawable;
 import com.jogamp.opengl.GLEventListener;
-import com.jogamp.opengl.fixedfunc.GLMatrixFunc;
-import com.jogamp.opengl.glu.GLU;
-import com.jogamp.opengl.util.texture.Texture;
-import com.jogamp.opengl.util.texture.TextureIO;
-import java.awt.*;
-import java.io.File;
-import java.io.IOException;
+import model.Coordinate;
+import model.Cube;
+import model.Edge;
 import java.nio.DoubleBuffer;
-import static java.lang.Math.cos;
-import static java.lang.Math.sin;
 
 public class RawGL2ES2demo implements GLEventListener {
     private float rotateX, rotateY, rotateZ;
 
-    private void drawCube(GL2 gl, float size) {
-
+    private void drawCube(GL2 gl, Cube cube) {
         gl.glBegin(GL2.GL_LINES);
-
-        // a
-        gl.glVertex3f(0f, 0f, 0f);
-        gl.glVertex3f(size, 0f, 0f);
-
-        // b
-        gl.glVertex3f(0f, 0f, 0f);
-        gl.glVertex3f(0f, size, 0f);
-
-        // c
-        gl.glVertex3f(0f, size, 0f);
-        gl.glVertex3f(size, size, 0f);
-
-        // d
-        gl.glVertex3f(size, size, 0f);
-        gl.glVertex3f(size, 0f, 0f);
-
-        // e
-        gl.glVertex3f(0f, 0f, 0f);
-        gl.glVertex3f(0f, 0f, size);
-
-        // g
-        gl.glVertex3f(0f, size, 0f);
-        gl.glVertex3f(0f, size, size);
-
-        // h
-        gl.glVertex3f(size, size, 0f);
-        gl.glVertex3f(size, size, size);
-
-        // i
-        gl.glVertex3f(size, 0f, 0f);
-        gl.glVertex3f(size, 0f, size);
-
-        // j
-        gl.glVertex3f(0f, 0f, size);
-        gl.glVertex3f(0f, size, size);
-
-        // k
-        gl.glVertex3f(0f, size, size);
-        gl.glVertex3f(size, size, size);
-
-        gl.glVertex3f(size, size, size);
-        gl.glVertex3f(size, 0f, size);
-
-        gl.glVertex3f(size, 0f, size);
-        gl.glVertex3f(0f, 0f, size);
-
+        for (Edge edge : cube.getEdges()) {
+            Coordinate startCord = edge.getStartCord();
+            Coordinate endCord = edge.getEndCord();
+            gl.glVertex3f(startCord.getX(), startCord.getY(), startCord.getZ());
+            gl.glVertex3f(endCord.getX(), endCord.getY(), endCord.getZ());
+        }
         gl.glEnd();
     }
+
     @Override
     public void init(GLAutoDrawable drawable) {
         GL2 gl = drawable.getGL().getGL2();
@@ -83,26 +36,49 @@ public class RawGL2ES2demo implements GLEventListener {
     public void display(GLAutoDrawable drawable) {
         GL2 gl = drawable.getGL().getGL2();
 
-        gl.glClearColor(0,0,0,0);
-        gl.glClear( GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT );
+        drawStaticCube(gl);
 
+        draw2Cube(gl);
+    }
+
+    private void draw2Cube(GL2 gl) {
         gl.glMatrixMode(GL2.GL_PROJECTION);  // Set up the projection.
         gl.glLoadIdentity();
-//        gl.glMultMatrixd();
+        double[] mx = {
+                1.0, 0.0, 0.0, 0.0,
+                0.0, 1.0, 0.0, 0.0,
+                Math.cos(Math.PI / 6.0), Math.sin(Math.PI / 6.0), 1.0, 0.0,
+                0.0, 0.0, 0.0, 1.0
+        };
+        gl.glMultMatrixd(DoubleBuffer.wrap(mx));
         gl.glMatrixMode(GL2.GL_MODELVIEW);
 
         gl.glLoadIdentity();             // Set up modelview transform.
-        gl.glRotatef(rotateZ++,0,0,1);
-        gl.glRotatef(rotateY++,0,1,0);
-        gl.glRotatef(rotateX++,1,0,0);
+        gl.glRotatef(rotateZ++, 0, 0, 1);
+        gl.glRotatef(rotateY++, 0, 1, 0);
+        gl.glRotatef(rotateX++, 1, 0, 0);
 
+        gl.glColor3f(1, 0, 1);
 
+        drawCube(gl, new Cube(0,0,0, 0.5f));
+    }
+
+    private void drawStaticCube(GL2 gl) {
+        gl.glClearColor(0, 0, 0, 0);
+        gl.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT);
+
+        gl.glMatrixMode(GL2.GL_PROJECTION);
+        gl.glLoadIdentity();
+        gl.glOrtho(-1, 1, -1, 1, -1, 1);
+        gl.glMatrixMode(GL2.GL_MODELVIEW);
+        gl.glLoadIdentity();
+
+        gl.glRotatef(45, 1, 0, 0);
+        gl.glRotatef(60, 0, 1, 0);
+        gl.glRotatef(0, 0, 0, 1);
 
         gl.glColor3f(1, 1, 1);
-
-        drawCube(gl, 0.7f);
-
-        drawCube(gl, 0.5f);
+        drawCube(gl, new Cube(-0.5f,0,0, 0.5f));
     }
 
     @Override
