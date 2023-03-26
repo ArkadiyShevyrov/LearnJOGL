@@ -11,6 +11,7 @@ public class Cube {
     private Coordinate centralCord;
     private List<Coordinate> vertexes = new ArrayList<>();
     private List<Edge> edges = new ArrayList<>();
+    private List<Polygon> polygons = new ArrayList<>();
 
     private float edgeLength;
 
@@ -35,18 +36,19 @@ public class Cube {
         float edgeRadius = edgeLength / 2;
         initVertexes(y, x, z, edgeRadius);
         initEdges();
+        initPolygons();
     }
 
     private void initVertexes(float y, float x, float z, float edgeRadius) {
-        this.vertexes.add(new Coordinate(x - edgeRadius, y - edgeRadius, z + edgeRadius));
-        this.vertexes.add(new Coordinate(x + edgeRadius, y - edgeRadius, z + edgeRadius));
-        this.vertexes.add(new Coordinate(x + edgeRadius, y + edgeRadius, z + edgeRadius));
-        this.vertexes.add(new Coordinate(x - edgeRadius, y + edgeRadius, z + edgeRadius));
-
         this.vertexes.add(new Coordinate(x - edgeRadius, y - edgeRadius, z - edgeRadius));
         this.vertexes.add(new Coordinate(x + edgeRadius, y - edgeRadius, z - edgeRadius));
         this.vertexes.add(new Coordinate(x + edgeRadius, y + edgeRadius, z - edgeRadius));
         this.vertexes.add(new Coordinate(x - edgeRadius, y + edgeRadius, z - edgeRadius));
+
+        this.vertexes.add(new Coordinate(x - edgeRadius, y - edgeRadius, z + edgeRadius));
+        this.vertexes.add(new Coordinate(x + edgeRadius, y - edgeRadius, z + edgeRadius));
+        this.vertexes.add(new Coordinate(x + edgeRadius, y + edgeRadius, z + edgeRadius));
+        this.vertexes.add(new Coordinate(x - edgeRadius, y + edgeRadius, z + edgeRadius));
     }
 
     private void initEdges() {
@@ -64,5 +66,16 @@ public class Cube {
         this.edges.add(new Edge(vertexes.get(5), vertexes.get(6)));
         this.edges.add(new Edge(vertexes.get(6), vertexes.get(7)));
         this.edges.add(new Edge(vertexes.get(7), vertexes.get(4)));
+    }
+
+    private void initPolygons() {
+        this.polygons.add(new Polygon(vertexes.get(0), vertexes.get(1), vertexes.get(2), vertexes.get(3)));
+
+        this.polygons.add(new Polygon(vertexes.get(0), vertexes.get(1), vertexes.get(5), vertexes.get(4)));
+        this.polygons.add(new Polygon(vertexes.get(1), vertexes.get(2), vertexes.get(6), vertexes.get(5)));
+        this.polygons.add(new Polygon(vertexes.get(2), vertexes.get(3), vertexes.get(7), vertexes.get(6)));
+        this.polygons.add(new Polygon(vertexes.get(3), vertexes.get(0), vertexes.get(4), vertexes.get(7)));
+
+        this.polygons.add(new Polygon(vertexes.get(4), vertexes.get(5), vertexes.get(6), vertexes.get(7)));
     }
 }
