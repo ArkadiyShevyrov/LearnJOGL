@@ -1,3 +1,4 @@
+import com.jogamp.opengl.GL;
 import com.jogamp.opengl.GL2;
 import com.jogamp.opengl.GLAutoDrawable;
 import com.jogamp.opengl.GLEventListener;
@@ -13,179 +14,120 @@ import static java.lang.Math.cos;
 import static java.lang.Math.sin;
 
 public class RawGL2ES2demo implements GLEventListener {
-    public static DisplayMode dm, dm_old;
-    private GLU glu = new GLU();
-    private float xrot, yrot, zrot;
-    private int texture;
+    private float rotateX, rotateY, rotateZ;
 
+    private void drawCube(GL2 gl, float size) {
+
+        gl.glBegin(GL2.GL_LINES);
+
+        // a
+        gl.glVertex3f(0f, 0f, 0f);
+        gl.glVertex3f(size, 0f, 0f);
+
+        // b
+        gl.glVertex3f(0f, 0f, 0f);
+        gl.glVertex3f(0f, size, 0f);
+
+        // c
+        gl.glVertex3f(0f, size, 0f);
+        gl.glVertex3f(size, size, 0f);
+
+        // d
+        gl.glVertex3f(size, size, 0f);
+        gl.glVertex3f(size, 0f, 0f);
+
+        // e
+        gl.glVertex3f(0f, 0f, 0f);
+        gl.glVertex3f(0f, 0f, size);
+
+        // g
+        gl.glVertex3f(0f, size, 0f);
+        gl.glVertex3f(0f, size, size);
+
+        // h
+        gl.glVertex3f(size, size, 0f);
+        gl.glVertex3f(size, size, size);
+
+        // i
+        gl.glVertex3f(size, 0f, 0f);
+        gl.glVertex3f(size, 0f, size);
+
+        // j
+        gl.glVertex3f(0f, 0f, size);
+        gl.glVertex3f(0f, size, size);
+
+        // k
+        gl.glVertex3f(0f, size, size);
+        gl.glVertex3f(size, size, size);
+
+        gl.glVertex3f(size, size, size);
+        gl.glVertex3f(size, 0f, size);
+
+        gl.glVertex3f(size, 0f, size);
+        gl.glVertex3f(0f, 0f, size);
+
+        gl.glEnd();
+    }
     @Override
     public void init(GLAutoDrawable drawable) {
-        final GL2 gl = drawable.getGL().getGL2();
-
-        gl.glShadeModel(GL2.GL_SMOOTH);
-        gl.glClearColor(0f, 0f, 0f, 0f);
-        gl.glClearDepth(1.0f);
-        gl.glEnable(GL2.GL_DEPTH_TEST);
-        gl.glDepthFunc(GL2.GL_LEQUAL);
-        gl.glHint(GL2.GL_PERSPECTIVE_CORRECTION_HINT, GL2.GL_NICEST);
-
-        gl.glEnable(GL2.GL_TEXTURE_2D);
-        try {
-
-            File im = new File("D:\\mad.jpg ");
-            Texture t = TextureIO.newTexture(im, true);
-            texture = t.getTextureObject(gl);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        // called when the panel is created
+        GL2 gl = drawable.getGL().getGL2();
+        gl.glClearColor(0.8F, 0.8F, 0.8F, 1.0F);
+        gl.glEnable(GL.GL_DEPTH_TEST);
+        gl.glEnable(GL2.GL_LIGHTING);
+        gl.glEnable(GL2.GL_LIGHT0);
+        gl.glEnable(GL2.GL_COLOR_MATERIAL);
     }
 
     @Override
     public void dispose(GLAutoDrawable glAutoDrawable) {
+
     }
 
     @Override
     public void display(GLAutoDrawable drawable) {
-        final GL2 gl = drawable.getGL().getGL2();
-        gl.glClear(GL2.GL_COLOR_BUFFER_BIT | GL2.GL_DEPTH_BUFFER_BIT);
-        gl.glLoadIdentity(); // Reset The View
-        gl.glTranslatef(0f, 0f, -5.0f);
+        GL2 gl = drawable.getGL().getGL2();
 
-        gl.glRotatef(xrot, 1.0f, 1.0f, 1.0f);
-        gl.glRotatef(yrot * 4, 0.0f, 1.0f, 0.0f);
-        gl.glRotatef(zrot * 16, 0.0f, 0.0f, 1.0f);
-//        rotate(gl, zrot * 16, 0.0f, 0.0f, 1.0f);
+        gl.glClearColor(0,0,0,0);
+        gl.glClear( GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT );
+
+        gl.glMatrixMode(GL2.GL_PROJECTION);  // Set up the projection.
+        gl.glLoadIdentity();
+        gl.glOrtho(-1,1,-1,1,-2,2);
+        gl.glMatrixMode(GL2.GL_MODELVIEW);
+
+        gl.glLoadIdentity();             // Set up modelview transform.
+        gl.glRotatef(rotateZ++,0,0,1);
+        gl.glRotatef(rotateY++,0,1,0);
+        gl.glRotatef(rotateX++,1,0,0);
 
 
 
-        gl.glBindTexture(GL2.GL_TEXTURE_2D, texture);
-        gl.glBegin(GL2.GL_QUADS);
+        gl.glColor3f(1, 1, 1);
 
-        // Front Face
-        gl.glTexCoord2f(0.0f, 0.0f);
-        gl.glVertex3f(-1.0f, -1.0f, 1.0f);
-        gl.glTexCoord2f(1.0f, 0.0f);
-        gl.glVertex3f(1.0f, -1.0f, 1.0f);
-        gl.glTexCoord2f(1.0f, 1.0f);
-        gl.glVertex3f(1.0f, 1.0f, 1.0f);
-        gl.glTexCoord2f(0.0f, 1.0f);
-        gl.glVertex3f(-1.0f, 1.0f, 1.0f);
+        gl.glEnable(GL2.GL_DEPTH_TEST);
 
-        // Back Face
-        gl.glTexCoord2f(1.0f, 0.0f);
-        gl.glVertex3f(-1.0f, -1.0f, -1.0f);
-        gl.glTexCoord2f(1.0f, 1.0f);
-        gl.glVertex3f(-1.0f, 1.0f, -1.0f);
-        gl.glTexCoord2f(0.0f, 1.0f);
-        gl.glVertex3f(1.0f, 1.0f, -1.0f);
-        gl.glTexCoord2f(0.0f, 0.0f);
-        gl.glVertex3f(1.0f, -1.0f, -1.0f);
 
-        // Top Face
-        gl.glTexCoord2f(0.0f, 1.0f);
-        gl.glVertex3f(-1.0f, 1.0f, -1.0f);
-        gl.glTexCoord2f(0.0f, 0.0f);
-        gl.glVertex3f(-1.0f, 1.0f, 1.0f);
-        gl.glTexCoord2f(1.0f, 0.0f);
-        gl.glVertex3f(1.0f, 1.0f, 1.0f);
-        gl.glTexCoord2f(1.0f, 1.0f);
-        gl.glVertex3f(1.0f, 1.0f, -1.0f);
+        //////////////////
+        gl.glCullFace(GL2.GL_FRONT);
+        this.drawCube(gl, 0.7f);
 
-        // Bottom Face
-        gl.glTexCoord2f(1.0f, 1.0f);
-        gl.glVertex3f(-1.0f, -1.0f, -1.0f);
-        gl.glTexCoord2f(0.0f, 1.0f);
-        gl.glVertex3f(1.0f, -1.0f, -1.0f);
-        gl.glTexCoord2f(0.0f, 0.0f);
-        gl.glVertex3f(1.0f, -1.0f, 1.0f);
-        gl.glTexCoord2f(1.0f, 0.0f);
-        gl.glVertex3f(-1.0f, -1.0f, 1.0f);
 
-        // Right face
-        gl.glTexCoord2f(1.0f, 0.0f);
-        gl.glVertex3f(1.0f, -1.0f, -1.0f);
-        gl.glTexCoord2f(1.0f, 1.0f);
-        gl.glVertex3f(1.0f, 1.0f, -1.0f);
-        gl.glTexCoord2f(0.0f, 1.0f);
-        gl.glVertex3f(1.0f, 1.0f, 1.0f);
-        gl.glTexCoord2f(0.0f, 0.0f);
-        gl.glVertex3f(1.0f, -1.0f, 1.0f);
+        /////////////////
+        gl.glCullFace(GL2.GL_BACK);
 
-        // Left Face
-        gl.glTexCoord2f(0.0f, 0.0f);
-        gl.glVertex3f(-1.0f, -1.0f, -1.0f);
-        gl.glTexCoord2f(1.0f, 0.0f);
-        gl.glVertex3f(-1.0f, -1.0f, 1.0f);
-        gl.glTexCoord2f(1.0f, 1.0f);
-        gl.glVertex3f(-1.0f, 1.0f, 1.0f);
-        gl.glTexCoord2f(0.0f, 1.0f);
-        gl.glVertex3f(-1.0f, 1.0f, -1.0f);
+        gl.glPushAttrib(GL2.GL_ENABLE_BIT);
+        gl.glLineStipple(1, (short)0xAAAA);
+        gl.glEnable(GL2.GL_LINE_STIPPLE);
 
-        gl.glEnd();
-        gl.glFlush();
+        this.drawCube(gl, 0.7f);
 
-        //change the speeds here
-        xrot += .1f;
-        yrot += .1f;
-        zrot += .1f;
+        gl.glDisable(GL2.GL_LINE_STIPPLE);
+        gl.glPopAttrib();
     }
 
     @Override
-    public void reshape(GLAutoDrawable drawable, int x, int y, int width, int height) {
-        GL2 gl = drawable.getGL().getGL2();
-        if (height <= 0)
-            height = 1;
+    public void reshape(GLAutoDrawable glAutoDrawable, int i, int i1, int i2, int i3) {
 
-        gl.glMatrixMode(GLMatrixFunc.GL_PROJECTION);
-        gl.glPushMatrix();
-        double[] mx = {1.0, 0.0, 0.0, 0.0,
-                0.0, 1.0, 0.0, 0.0,
-                -cos(3.14 / 6.0), -sin(3.14 / 6.0), 1.0, 0.0,
-                0.0, 0.0, 0.0, 1.0};
-        gl.glMultMatrixd(DoubleBuffer.wrap(mx));
-        gl.glPopMatrix();
-
-        final float h = (float) width / (float) height;
-        gl.glViewport(0, 0, width, height);
-        gl.glMatrixMode(GL2.GL_PROJECTION);
-        gl.glLoadIdentity();
-
-        glu.gluPerspective(45.0f, h, 1.0, 20.0);
-        gl.glMatrixMode(GL2.GL_MODELVIEW);
-        gl.glLoadIdentity();
     }
-
-
-    public void rotate(GL2 gl, float phi, float v, float v1, float v2) {
-
-        double[] Roz = new double[]{
-                cos(phi), sin(phi), 0, 0,
-                -sin(phi), cos(phi), 0, 0,
-                0, 0, 1, 0,
-                0, 0, 0, 1
-        };
-        double[] Roy = new double[]{
-                cos(phi), 0, sin(phi), 0,
-                0, 1, 0, 0,
-                -sin(phi), 0, cos(phi), 0,
-                0, 0, 0, 1
-        };
-        double[] Rox = new double[]{
-                1, 0, 0, 0,
-                0, cos(phi), -sin(phi), 0,
-                0, sin(phi), cos(phi), 0,
-                0, 0, 0, 1
-        };
-        if (v != 0) {
-            gl.glMultMatrixd(DoubleBuffer.wrap(Rox));
-        }
-        if (v1 != 0) {
-            gl.glMultMatrixd(DoubleBuffer.wrap(Roy));
-        }
-        if (v2 != 0) {
-            gl.glMultMatrixd(DoubleBuffer.wrap(Roz));
-        }
-    }
-
 }
