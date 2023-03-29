@@ -73,6 +73,9 @@ public class RawGL2ES2demo implements GLEventListener {
 //        gl.glRotatef(rotateZ, 0, 0, 1);
 //        gl.glRotatef(rotateY, 0, 1, 0);
 //        gl.glRotatef(rotateX, 1, 0, 0);
+        gl.glRotatef(-90 + 15, 1, 0, 0);
+        gl.glRotatef(0, 0, 1, 0);
+        gl.glRotatef(60, 0, 0, 1);
         rotate(gl, rotateX, rotateY, rotateZ);
 
         gl.glColor3f(1, 0, 1);
