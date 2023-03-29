@@ -17,10 +17,12 @@ public class Main {
         glWindow.setPointerVisible(true);
         glWindow.setVisible(true);
         Service service = new Service();
-        glWindow.addGLEventListener(new RawGL2ES2demo(service));
+        RawGL2ES2demo glEventListener = new RawGL2ES2demo(service);
+        glWindow.addGLEventListener(glEventListener);
         glWindow.addMouseListener(new MyMouse(service));
+        glWindow.addKeyListener(new MyKey(glEventListener, service));
         glWindow.display();
-        FPSAnimator animator = new FPSAnimator(1, true);
+        FPSAnimator animator = new FPSAnimator(60, true);
         animator.add(glWindow);
         animator.start();
     }

@@ -8,7 +8,6 @@ import model.ModelObject;
 import model.Polygon;
 
 @Getter
-@Setter
 public class Cube extends ModelObject {
     private float edgeLength;
 
@@ -23,6 +22,22 @@ public class Cube extends ModelObject {
         initVertexes();
         initEdges();
         initPolygons();
+    }
+
+    protected void update() {
+        float y = centralCord.getY();
+        float x = centralCord.getX();
+        float z = centralCord.getZ();
+        float edgeRadius = edgeLength / 2;
+        this.vertexes.set(0, new Coordinate(x - edgeRadius, y - edgeRadius, z - edgeRadius));
+        this.vertexes.set(1, new Coordinate(x + edgeRadius, y - edgeRadius, z - edgeRadius));
+        this.vertexes.set(2, new Coordinate(x + edgeRadius, y + edgeRadius, z - edgeRadius));
+        this.vertexes.set(3,new Coordinate(x - edgeRadius, y + edgeRadius, z - edgeRadius));
+
+        this.vertexes.set(4,new Coordinate(x - edgeRadius, y - edgeRadius, z + edgeRadius));
+        this.vertexes.set(5,new Coordinate(x + edgeRadius, y - edgeRadius, z + edgeRadius));
+        this.vertexes.set(6,new Coordinate(x + edgeRadius, y + edgeRadius, z + edgeRadius));
+        this.vertexes.set(7,new Coordinate(x - edgeRadius, y + edgeRadius, z + edgeRadius));
     }
 
     @Override
@@ -70,5 +85,10 @@ public class Cube extends ModelObject {
         this.polygons.add(new Polygon(vertexes.get(3), vertexes.get(0), vertexes.get(4), vertexes.get(7)));
 
         this.polygons.add(new Polygon(vertexes.get(4), vertexes.get(5), vertexes.get(6), vertexes.get(7)));
+    }
+
+    public void setEdgeLength(float edgeLength) {
+        this.edgeLength = edgeLength;
+        update();
     }
 }

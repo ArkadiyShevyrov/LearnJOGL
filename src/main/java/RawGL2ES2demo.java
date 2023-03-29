@@ -1,12 +1,17 @@
 import com.jogamp.opengl.GL2;
 import com.jogamp.opengl.GLAutoDrawable;
 import com.jogamp.opengl.GLEventListener;
+import lombok.Getter;
+import lombok.Setter;
 import model.ModelObject;
 import model.primitive.Cube;
 import model.primitive.TruncatedPyramid;
 import utils.DrawObject;
 import java.nio.DoubleBuffer;
+import java.util.Random;
 
+@Getter
+@Setter
 public class RawGL2ES2demo implements GLEventListener {
     Service service;
 
@@ -57,6 +62,10 @@ public class RawGL2ES2demo implements GLEventListener {
         gl.glRotatef(-90+15, 1, 0, 0);
         gl.glRotatef(0, 0, 1, 0);
         gl.glRotatef(60, 0, 0, 1);
+
+        gl.glRotatef(rotateX, 1, 0, 0);
+        gl.glRotatef(rotateY, 0, 1, 0);
+        gl.glRotatef(rotateZ, 0, 0, 1);
 
         gl.glColor3f(1, 1, 1);
         for (ModelObject modelObject : service.list) {
