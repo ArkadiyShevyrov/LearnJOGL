@@ -64,18 +64,13 @@ public class RawGL2ES2demo implements GLEventListener {
                 1.0, 0.0, 0.0, 0.0,
                 0.0, 1.0, 0.0, 0.0,
                 cos(Math.PI / 6.0), sin(Math.PI / 6.0), 1.0, 0.0,
-                0.0, 0.0, 0.0, 1.0
+                0.0, 0.0, 0.0, 1.0,
         };
         gl.glMultMatrixd(DoubleBuffer.wrap(mx));
         gl.glMatrixMode(GL2.GL_MODELVIEW);
 
         gl.glLoadIdentity();
-//        gl.glRotatef(rotateZ, 0, 0, 1);
-//        gl.glRotatef(rotateY, 0, 1, 0);
-//        gl.glRotatef(rotateX, 1, 0, 0);
-        gl.glRotatef(-90 + 15, 1, 0, 0);
-        gl.glRotatef(0, 0, 1, 0);
-        gl.glRotatef(60, 0, 0, 1);
+        rotate(gl, -90, 0, 60);
         rotate(gl, rotateX, rotateY, rotateZ);
 
         gl.glColor3f(1, 0, 1);
@@ -85,13 +80,10 @@ public class RawGL2ES2demo implements GLEventListener {
     private void drawStaticCube(GL2 gl) {
         gl.glMatrixMode(GL2.GL_PROJECTION);
         gl.glLoadIdentity();
-        gl.glOrtho(-10, 10, -10, 10, -10, 10);
+        orthogonal(gl, -10, 10, -10, 10, -10, 10);
         gl.glMatrixMode(GL2.GL_MODELVIEW);
         gl.glLoadIdentity();
 
-//        gl.glRotatef(45, 1, 0, 0);
-//        gl.glRotatef(60, 0, 1, 0);
-//        gl.glRotatef(0, 0, 0, 1);
         rotate(gl, 45, 60,0);
 
         gl.glColor3f(1, 1, 1);
@@ -125,5 +117,20 @@ public class RawGL2ES2demo implements GLEventListener {
         gl.glMultMatrixd(DoubleBuffer.wrap(rx));
         gl.glMultMatrixd(DoubleBuffer.wrap(ry));
         gl.glMultMatrixd(DoubleBuffer.wrap(rz));
+    }
+
+    private void orthogonal(GL2 gl,
+                            float left, float bottom, float near,
+                            float right, float top, float far) {
+        float tx = - (right+left)/(right-left);
+        float ty = - (top+bottom)/(top-bottom);
+        float tz = - (far + near)/(far - near);
+        double[] mx = {
+                2/(right-left), 0.0, 0.0, tx,
+                0.0, 2/(top-bottom), 0.0, ty,
+                0.0, 0.0, 2/(far-near), tz,
+                0.0, 0.0, 0.0, 1.0,
+        };
+        gl.glMultMatrixd(DoubleBuffer.wrap(mx));
     }
 }
