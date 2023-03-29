@@ -1,57 +1,51 @@
-package model;
+package model.primitive;
 
 import lombok.Getter;
 import lombok.Setter;
-import java.util.ArrayList;
-import java.util.List;
+import model.Coordinate;
+import model.Edge;
+import model.ModelObject;
+import model.Polygon;
 
 @Getter
-@Setter
-public class Cube {
-    private Coordinate centralCord;
-    private List<Coordinate> vertexes = new ArrayList<>();
-    private List<Edge> edges = new ArrayList<>();
-    private List<Polygon> polygons = new ArrayList<>();
-
+public class TruncatedPyramid extends ModelObject {
     private float edgeLength;
+    private float offsetOxy;
 
-    public Cube(Coordinate centralCord, float edgeLength) {
-        this.centralCord = centralCord;
+    public TruncatedPyramid(float x, float y, float z, float edgeLength) {
+        super(x, y, z);
         this.edgeLength = edgeLength;
+        this.offsetOxy = edgeLength / 4;
         init();
     }
 
-    public Cube(float x, float y, float z, float edgeLength) {
-        this(new Coordinate(x, y, z), edgeLength);
-    }
-
-    public Cube(float x, float y, float z) {
-        this(x, y, z, 1.0f);
-    }
-
-    private void init() {
-        float y = centralCord.getY();
-        float x = centralCord.getX();
-        float z = centralCord.getZ();
-        float edgeRadius = edgeLength / 2;
-        initVertexes(y, x, z, edgeRadius);
+    @Override
+    protected void init() {
+        initVertexes();
         initEdges();
         initPolygons();
     }
 
-    private void initVertexes(float y, float x, float z, float edgeRadius) {
+    @Override
+    protected void initVertexes() {
+        float y = centralCord.getY();
+        float x = centralCord.getX();
+        float z = centralCord.getZ();
+        float edgeRadius = edgeLength / 2;
         this.vertexes.add(new Coordinate(x - edgeRadius, y - edgeRadius, z - edgeRadius));
         this.vertexes.add(new Coordinate(x + edgeRadius, y - edgeRadius, z - edgeRadius));
         this.vertexes.add(new Coordinate(x + edgeRadius, y + edgeRadius, z - edgeRadius));
         this.vertexes.add(new Coordinate(x - edgeRadius, y + edgeRadius, z - edgeRadius));
 
-        this.vertexes.add(new Coordinate(x - edgeRadius, y - edgeRadius, z + edgeRadius));
-        this.vertexes.add(new Coordinate(x + edgeRadius, y - edgeRadius, z + edgeRadius));
-        this.vertexes.add(new Coordinate(x + edgeRadius, y + edgeRadius, z + edgeRadius));
-        this.vertexes.add(new Coordinate(x - edgeRadius, y + edgeRadius, z + edgeRadius));
+        float offset = (float) Math.sqrt(Math.pow(edgeRadius,2)-Math.pow(offsetOxy,2));
+        this.vertexes.add(new Coordinate(x - edgeRadius + offsetOxy, y - edgeRadius + offsetOxy, z + edgeRadius-offset));
+        this.vertexes.add(new Coordinate(x + edgeRadius - offsetOxy, y - edgeRadius + offsetOxy, z + edgeRadius-offset));
+        this.vertexes.add(new Coordinate(x + edgeRadius - offsetOxy, y + edgeRadius - offsetOxy, z + edgeRadius-offset));
+        this.vertexes.add(new Coordinate(x - edgeRadius + offsetOxy, y + edgeRadius - offsetOxy, z + edgeRadius-offset));
     }
 
-    private void initEdges() {
+    @Override
+    protected void initEdges() {
         this.edges.add(new Edge(vertexes.get(0), vertexes.get(1)));
         this.edges.add(new Edge(vertexes.get(1), vertexes.get(2)));
         this.edges.add(new Edge(vertexes.get(2), vertexes.get(3)));
@@ -68,7 +62,8 @@ public class Cube {
         this.edges.add(new Edge(vertexes.get(7), vertexes.get(4)));
     }
 
-    private void initPolygons() {
+    @Override
+    protected void initPolygons() {
         this.polygons.add(new Polygon(vertexes.get(0), vertexes.get(1), vertexes.get(2), vertexes.get(3)));
 
         this.polygons.add(new Polygon(vertexes.get(0), vertexes.get(1), vertexes.get(5), vertexes.get(4)));
@@ -77,5 +72,15 @@ public class Cube {
         this.polygons.add(new Polygon(vertexes.get(3), vertexes.get(0), vertexes.get(4), vertexes.get(7)));
 
         this.polygons.add(new Polygon(vertexes.get(4), vertexes.get(5), vertexes.get(6), vertexes.get(7)));
+    }
+
+    public void setEdgeLength(float edgeLength) {
+        this.edgeLength = edgeLength;
+        init();
+    }
+
+    public void setOffsetOxy(float offsetOxy) {
+        this.offsetOxy = offsetOxy;
+        init();
     }
 }
