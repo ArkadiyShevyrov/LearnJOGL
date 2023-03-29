@@ -1,6 +1,7 @@
 import com.jogamp.newt.event.KeyEvent;
 import com.jogamp.newt.event.KeyListener;
 import model.ModelObject;
+import model.primitive.Cube;
 import model.primitive.TruncatedPyramid;
 
 public class MyKey implements KeyListener {
@@ -17,33 +18,17 @@ public class MyKey implements KeyListener {
         switch (keyEvent.getKeyCode()) {
             case KeyEvent.VK_1 -> {
                 for (ModelObject modelObject : service.list) {
-                    if (modelObject instanceof TruncatedPyramid pyramid) {
-                        pyramid.setEdgeLength(pyramid.getEdgeLength() + 0.1f);
-                        service.list.set(0, modelObject);
+                    if (modelObject instanceof Cube cube) {
+                        cube.setEdgeLength(cube.getEdgeLength() + 0.1f);
+                        service.list.set(0, cube);
                     }
                 }
             }
             case KeyEvent.VK_2 -> {
                 for (ModelObject modelObject : service.list) {
-                    if (modelObject instanceof TruncatedPyramid pyramid) {
-                        pyramid.setEdgeLength(pyramid.getEdgeLength() - 0.1f);
-                        service.list.set(0, modelObject);
-                    }
-                }
-            }
-            case KeyEvent.VK_3 -> {
-                for (ModelObject modelObject : service.list) {
-                    if (modelObject instanceof TruncatedPyramid pyramid) {
-                        pyramid.setOffsetOxy(pyramid.getOffsetOxy() +0.1f);
-                        service.list.set(0, pyramid);
-                    }
-                }
-            }
-            case KeyEvent.VK_4 -> {
-                for (ModelObject modelObject : service.list) {
-                    if (modelObject instanceof TruncatedPyramid pyramid) {
-                        pyramid.setOffsetOxy(pyramid.getOffsetOxy()-0.1f);
-                        service.list.set(0, pyramid);
+                    if (modelObject instanceof Cube cube) {
+                        cube.setEdgeLength(cube.getEdgeLength() - 0.1f);
+                        service.list.set(0, cube);
                     }
                 }
             }

@@ -48,39 +48,16 @@ public class RawGL2ES2demo implements GLEventListener {
         GL2 gl = drawable.getGL().getGL2();
         gl.glClearColor(0, 0, 0, 0);
         gl.glClear(GL2.GL_COLOR_BUFFER_BIT | GL2.GL_DEPTH_BUFFER_BIT);
-//        drawLaba2(gl);
-        drawLab3(gl);
+        drawLab2(gl);
     }
 
-    private void drawLab3(GL2 gl) {
-        gl.glMatrixMode(GL2.GL_PROJECTION);
-        gl.glLoadIdentity();
-        gl.glOrtho(-10, 10, -10, 10, -10, 10);
-        gl.glMatrixMode(GL2.GL_MODELVIEW);
-        gl.glLoadIdentity();
-
-        gl.glRotatef(-90 + 15, 1, 0, 0);
-        gl.glRotatef(0, 0, 1, 0);
-        gl.glRotatef(60, 0, 0, 1);
-
-        gl.glRotatef(rotateX, 1, 0, 0);
-        gl.glRotatef(rotateY, 0, 1, 0);
-        gl.glRotatef(rotateZ, 0, 0, 1);
-
-        gl.glColor3f(1, 1, 1);
-        for (ModelObject modelObject : service.list) {
-            drawModelObject(gl, modelObject);
-        }
-    }
-
-    private void drawLaba1(GL2 gl) {
+    private void drawLab2(GL2 gl) {
         drawStaticCube(gl);
-
         draw2Cube(gl);
     }
 
     private void draw2Cube(GL2 gl) {
-        gl.glMatrixMode(GL2.GL_PROJECTION);  // Set up the projection.
+        gl.glMatrixMode(GL2.GL_PROJECTION);
         gl.glLoadIdentity();
         double[] mx = {
                 1.0, 0.0, 0.0, 0.0,
@@ -92,19 +69,18 @@ public class RawGL2ES2demo implements GLEventListener {
         gl.glMatrixMode(GL2.GL_MODELVIEW);
 
         gl.glLoadIdentity();
-        gl.glRotatef(rotateZ++, 0, 0, 1);
-        gl.glRotatef(rotateY++, 0, 1, 0);
-        gl.glRotatef(rotateX++, 1, 0, 0);
+        gl.glRotatef(rotateZ, 0, 0, 1);
+        gl.glRotatef(rotateY, 0, 1, 0);
+        gl.glRotatef(rotateX, 1, 0, 0);
 
         gl.glColor3f(1, 0, 1);
-
-        drawModelObject(gl, new Cube(0.5f, 0, 0, 0.3f));
+        drawModelObject(gl,service.list.get(0));
     }
 
     private void drawStaticCube(GL2 gl) {
         gl.glMatrixMode(GL2.GL_PROJECTION);
         gl.glLoadIdentity();
-        gl.glOrtho(-1, 1, -1, 1, -1, 1);
+        gl.glOrtho(-10, 10, -10, 10, -10, 10);
         gl.glMatrixMode(GL2.GL_MODELVIEW);
         gl.glLoadIdentity();
 
@@ -113,11 +89,15 @@ public class RawGL2ES2demo implements GLEventListener {
         gl.glRotatef(0, 0, 0, 1);
 
         gl.glColor3f(1, 1, 1);
-        drawModelObject(gl, new Cube(-0.5f, 0, 0, 0.3f));
+        drawModelObject(gl, new Cube(-10f, 0, 0, 3f));
     }
 
     @Override
     public void reshape(GLAutoDrawable glAutoDrawable, int i, int i1, int i2, int i3) {
+
+    }
+
+    private void rotate(GL2 gl, float rotateX, float rotateY, float rotateZ) {
 
     }
 }
