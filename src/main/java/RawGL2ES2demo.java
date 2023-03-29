@@ -7,6 +7,7 @@ import model.ModelObject;
 import model.primitive.Cube;
 import utils.DrawObject;
 import java.nio.DoubleBuffer;
+import static java.lang.Math.*;
 
 @Getter
 @Setter
@@ -62,19 +63,20 @@ public class RawGL2ES2demo implements GLEventListener {
         double[] mx = {
                 1.0, 0.0, 0.0, 0.0,
                 0.0, 1.0, 0.0, 0.0,
-                Math.cos(Math.PI / 6.0), Math.sin(Math.PI / 6.0), 1.0, 0.0,
+                cos(Math.PI / 6.0), sin(Math.PI / 6.0), 1.0, 0.0,
                 0.0, 0.0, 0.0, 1.0
         };
         gl.glMultMatrixd(DoubleBuffer.wrap(mx));
         gl.glMatrixMode(GL2.GL_MODELVIEW);
 
         gl.glLoadIdentity();
-        gl.glRotatef(rotateZ, 0, 0, 1);
-        gl.glRotatef(rotateY, 0, 1, 0);
-        gl.glRotatef(rotateX, 1, 0, 0);
+//        gl.glRotatef(rotateZ, 0, 0, 1);
+//        gl.glRotatef(rotateY, 0, 1, 0);
+//        gl.glRotatef(rotateX, 1, 0, 0);
+        rotate(gl, rotateX, rotateY, rotateZ);
 
         gl.glColor3f(1, 0, 1);
-        drawModelObject(gl,service.list.get(0));
+        drawModelObject(gl, service.list.get(0));
     }
 
     private void drawStaticCube(GL2 gl) {
@@ -84,9 +86,10 @@ public class RawGL2ES2demo implements GLEventListener {
         gl.glMatrixMode(GL2.GL_MODELVIEW);
         gl.glLoadIdentity();
 
-        gl.glRotatef(45, 1, 0, 0);
-        gl.glRotatef(60, 0, 1, 0);
-        gl.glRotatef(0, 0, 0, 1);
+//        gl.glRotatef(45, 1, 0, 0);
+//        gl.glRotatef(60, 0, 1, 0);
+//        gl.glRotatef(0, 0, 0, 1);
+        rotate(gl, 45, 60,0);
 
         gl.glColor3f(1, 1, 1);
         drawModelObject(gl, new Cube(-10f, 0, 0, 3f));
@@ -98,6 +101,26 @@ public class RawGL2ES2demo implements GLEventListener {
     }
 
     private void rotate(GL2 gl, float rotateX, float rotateY, float rotateZ) {
-
+        double[] rz = {
+                cos(rotateZ*PI/180), sin(rotateZ*PI/180), 0.0, 0.0,
+                -sin(rotateZ*PI/180), cos(rotateZ*PI/180), 0.0, 0.0,
+                0.0, 0.0, 1.0, 0.0,
+                0.0, 0.0, 0.0, 1.0
+        };
+        double[] ry = {
+                cos(rotateY*PI/180), 0.0, -sin(rotateY*PI/180), 0.0,
+                0.0, 1.0, 0.0, 0.0,
+                sin(rotateY*PI/180), 0.0, cos(rotateY*PI/180), 0.0,
+                0.0, 0.0, 0.0, 1.0
+        };
+        double[] rx = {
+                1.0, 0.0, 0.0, 0.0,
+                0.0, cos(rotateX*PI/180), sin(rotateX*PI/180), 0.0,
+                0.0, -sin(rotateX*PI/180), cos(rotateX*PI/180), 0.0,
+                0.0, 0.0, 0.0, 1.0
+        };
+        gl.glMultMatrixd(DoubleBuffer.wrap(rx));
+        gl.glMultMatrixd(DoubleBuffer.wrap(ry));
+        gl.glMultMatrixd(DoubleBuffer.wrap(rz));
     }
 }
