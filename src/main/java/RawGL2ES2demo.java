@@ -4,9 +4,7 @@ import com.jogamp.opengl.GLEventListener;
 import lombok.Getter;
 import lombok.Setter;
 import model.ModelObject;
-import model.primitive.Cube;
 import utils.DrawObject;
-import java.nio.DoubleBuffer;
 
 @Getter
 @Setter
@@ -48,7 +46,6 @@ public class RawGL2ES2demo implements GLEventListener {
         GL2 gl = drawable.getGL().getGL2();
         gl.glClearColor(0, 0, 0, 0);
         gl.glClear(GL2.GL_COLOR_BUFFER_BIT | GL2.GL_DEPTH_BUFFER_BIT);
-//        drawLaba2(gl);
         drawLab3(gl);
     }
 
@@ -71,49 +68,6 @@ public class RawGL2ES2demo implements GLEventListener {
         for (ModelObject modelObject : service.list) {
             drawModelObject(gl, modelObject);
         }
-    }
-
-    private void drawLaba1(GL2 gl) {
-        drawStaticCube(gl);
-
-        draw2Cube(gl);
-    }
-
-    private void draw2Cube(GL2 gl) {
-        gl.glMatrixMode(GL2.GL_PROJECTION);  // Set up the projection.
-        gl.glLoadIdentity();
-        double[] mx = {
-                1.0, 0.0, 0.0, 0.0,
-                0.0, 1.0, 0.0, 0.0,
-                Math.cos(Math.PI / 6.0), Math.sin(Math.PI / 6.0), 1.0, 0.0,
-                0.0, 0.0, 0.0, 1.0
-        };
-        gl.glMultMatrixd(DoubleBuffer.wrap(mx));
-        gl.glMatrixMode(GL2.GL_MODELVIEW);
-
-        gl.glLoadIdentity();
-        gl.glRotatef(rotateZ++, 0, 0, 1);
-        gl.glRotatef(rotateY++, 0, 1, 0);
-        gl.glRotatef(rotateX++, 1, 0, 0);
-
-        gl.glColor3f(1, 0, 1);
-
-        drawModelObject(gl, new Cube(0.5f, 0, 0, 0.3f));
-    }
-
-    private void drawStaticCube(GL2 gl) {
-        gl.glMatrixMode(GL2.GL_PROJECTION);
-        gl.glLoadIdentity();
-        gl.glOrtho(-1, 1, -1, 1, -1, 1);
-        gl.glMatrixMode(GL2.GL_MODELVIEW);
-        gl.glLoadIdentity();
-
-        gl.glRotatef(45, 1, 0, 0);
-        gl.glRotatef(60, 0, 1, 0);
-        gl.glRotatef(0, 0, 0, 1);
-
-        gl.glColor3f(1, 1, 1);
-        drawModelObject(gl, new Cube(-0.5f, 0, 0, 0.3f));
     }
 
     @Override

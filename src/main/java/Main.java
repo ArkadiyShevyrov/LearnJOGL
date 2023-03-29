@@ -19,7 +19,6 @@ public class Main {
         Service service = new Service();
         RawGL2ES2demo glEventListener = new RawGL2ES2demo(service);
         glWindow.addGLEventListener(glEventListener);
-        glWindow.addMouseListener(new MyMouse(service));
         glWindow.addKeyListener(new MyKey(glEventListener, service));
         glWindow.display();
         FPSAnimator animator = new FPSAnimator(60, true);
