@@ -1,7 +1,6 @@
 package model.primitive;
 
 import lombok.Getter;
-import lombok.Setter;
 import model.Coordinate;
 import model.Edge;
 import model.ModelObject;
@@ -32,12 +31,12 @@ public class Cube extends ModelObject {
         this.vertexes.set(0, new Coordinate(x - edgeRadius, y - edgeRadius, z - edgeRadius));
         this.vertexes.set(1, new Coordinate(x + edgeRadius, y - edgeRadius, z - edgeRadius));
         this.vertexes.set(2, new Coordinate(x + edgeRadius, y + edgeRadius, z - edgeRadius));
-        this.vertexes.set(3,new Coordinate(x - edgeRadius, y + edgeRadius, z - edgeRadius));
+        this.vertexes.set(3, new Coordinate(x - edgeRadius, y + edgeRadius, z - edgeRadius));
 
-        this.vertexes.set(4,new Coordinate(x - edgeRadius, y - edgeRadius, z + edgeRadius));
-        this.vertexes.set(5,new Coordinate(x + edgeRadius, y - edgeRadius, z + edgeRadius));
-        this.vertexes.set(6,new Coordinate(x + edgeRadius, y + edgeRadius, z + edgeRadius));
-        this.vertexes.set(7,new Coordinate(x - edgeRadius, y + edgeRadius, z + edgeRadius));
+        this.vertexes.set(4, new Coordinate(x - edgeRadius, y - edgeRadius, z + edgeRadius));
+        this.vertexes.set(5, new Coordinate(x + edgeRadius, y - edgeRadius, z + edgeRadius));
+        this.vertexes.set(6, new Coordinate(x + edgeRadius, y + edgeRadius, z + edgeRadius));
+        this.vertexes.set(7, new Coordinate(x - edgeRadius, y + edgeRadius, z + edgeRadius));
     }
 
     @Override

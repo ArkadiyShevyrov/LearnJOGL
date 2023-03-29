@@ -47,6 +47,9 @@ public class MyKey implements KeyListener {
                     }
                 }
             }
+            case KeyEvent.VK_5 -> {
+                glEventListener.setPolygon(!glEventListener.isPolygon());
+            }
             case KeyEvent.VK_A -> {
                 glEventListener.setRotateZ(glEventListener.getRotateZ()+1);
             }

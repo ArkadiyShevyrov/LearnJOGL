@@ -5,25 +5,25 @@ import lombok.Getter;
 import lombok.Setter;
 import model.ModelObject;
 import model.primitive.Cube;
-import model.primitive.TruncatedPyramid;
 import utils.DrawObject;
 import java.nio.DoubleBuffer;
-import java.util.Random;
 
 @Getter
 @Setter
 public class RawGL2ES2demo implements GLEventListener {
     Service service;
+    private float rotateX, rotateY, rotateZ;
+    private boolean isPolygon;
 
     public RawGL2ES2demo(Service service) {
         this.service = service;
     }
 
-    private float rotateX, rotateY, rotateZ;
-
     private void drawModelObject(GL2 gl, ModelObject modelObject) {
-        gl.glColor3f(1, 0, 1);
-        DrawObject.drawPolygon(gl, modelObject);
+        if (isPolygon) {
+            gl.glColor3f(1, 0, 1);
+            DrawObject.drawPolygon(gl, modelObject);
+        }
 
         gl.glColor3f(1, 1, 1);
         DrawObject.drawEdges(gl, modelObject);
@@ -59,7 +59,7 @@ public class RawGL2ES2demo implements GLEventListener {
         gl.glMatrixMode(GL2.GL_MODELVIEW);
         gl.glLoadIdentity();
 
-        gl.glRotatef(-90+15, 1, 0, 0);
+        gl.glRotatef(-90 + 15, 1, 0, 0);
         gl.glRotatef(0, 0, 1, 0);
         gl.glRotatef(60, 0, 0, 1);
 
