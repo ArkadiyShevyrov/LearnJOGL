@@ -1,23 +1,31 @@
+package ru.mos.bmstu.jojl.viewcontrol.service;
+
 import com.jogamp.opengl.GL2;
 import com.jogamp.opengl.GLAutoDrawable;
 import com.jogamp.opengl.GLEventListener;
 import lombok.Getter;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-import model.ModelObject;
-import model.primitive.Cube;
-import utils.DrawObject;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+import ru.mos.bmstu.jojl.model.model.ModelObject;
+import ru.mos.bmstu.jojl.model.model.primitive.Cube;
+import ru.mos.bmstu.jojl.model.database.DBObject;
+import ru.mos.bmstu.jojl.model.service.ModelService;
+import ru.mos.bmstu.jojl.viewcontrol.utils.DrawObject;
 import java.nio.DoubleBuffer;
 
 @Getter
 @Setter
+@Slf4j
+@RequiredArgsConstructor
+@Service
 public class RawGL2ES2demo implements GLEventListener {
-    Service service;
+    @NonNull
+    ModelService modelService;
     private float rotateX, rotateY, rotateZ;
     private boolean isPolygon;
-
-    public RawGL2ES2demo(Service service) {
-        this.service = service;
-    }
 
     private void drawModelObject(GL2 gl, ModelObject modelObject) {
         if (isPolygon) {
@@ -48,8 +56,28 @@ public class RawGL2ES2demo implements GLEventListener {
         GL2 gl = drawable.getGL().getGL2();
         gl.glClearColor(0, 0, 0, 0);
         gl.glClear(GL2.GL_COLOR_BUFFER_BIT | GL2.GL_DEPTH_BUFFER_BIT);
-//        drawLaba2(gl);
-        drawLab3(gl);
+        drawLab4(gl);
+    }
+
+    private void drawLab4(GL2 gl) {
+        gl.glMatrixMode(GL2.GL_PROJECTION);
+        gl.glLoadIdentity();
+        gl.glOrtho(-10, 10, -10, 10, -10, 10);
+        gl.glMatrixMode(GL2.GL_MODELVIEW);
+        gl.glLoadIdentity();
+
+        gl.glRotatef(-90 + 15, 1, 0, 0);
+        gl.glRotatef(0, 0, 1, 0);
+        gl.glRotatef(60, 0, 0, 1);
+
+        gl.glRotatef(rotateX, 1, 0, 0);
+        gl.glRotatef(rotateY, 0, 1, 0);
+        gl.glRotatef(rotateZ, 0, 0, 1);
+
+        gl.glColor3f(1, 1, 1);
+        for (ModelObject modelObject : modelService.getListModelObjects()) {
+            drawModelObject(gl, modelObject);
+        }
     }
 
     private void drawLab3(GL2 gl) {
@@ -68,7 +96,7 @@ public class RawGL2ES2demo implements GLEventListener {
         gl.glRotatef(rotateZ, 0, 0, 1);
 
         gl.glColor3f(1, 1, 1);
-        for (ModelObject modelObject : service.list) {
+        for (ModelObject modelObject : modelService.getListModelObjects()) {
             drawModelObject(gl, modelObject);
         }
     }

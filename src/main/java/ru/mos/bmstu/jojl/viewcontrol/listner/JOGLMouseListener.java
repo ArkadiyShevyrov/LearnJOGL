@@ -1,30 +1,30 @@
+package ru.mos.bmstu.jojl.viewcontrol.listner;
+
 import com.jogamp.newt.event.MouseEvent;
 import com.jogamp.newt.event.MouseListener;
-import com.jogamp.opengl.Threading;
-import model.ModelObject;
-import model.primitive.Cube;
-import model.primitive.TruncatedPyramid;
-import java.util.Random;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+import ru.mos.bmstu.jojl.model.model.ModelObject;
+import ru.mos.bmstu.jojl.model.model.primitive.TruncatedPyramid;
+import ru.mos.bmstu.jojl.model.service.ModelService;
 
-public class MyMouse implements MouseListener {
-
-    private final Service service;
-
-    public MyMouse(Service service) {
-        this.service = service;
-    }
+@Slf4j
+@RequiredArgsConstructor
+@Service
+public class JOGLMouseListener implements MouseListener {
+    @NonNull
+    private final ModelService modelService;
 
     @Override
     public void mouseClicked(MouseEvent mouseEvent) {
-        for (ModelObject modelObject : service.list) {
+        for (ModelObject modelObject : modelService.getListModelObjects()) {
             if (modelObject instanceof TruncatedPyramid pyramid) {
-
-                modelObject =new TruncatedPyramid(0,0,0, pyramid.getEdgeLength() + 1);
-                service.list.set(0, modelObject);
+                modelObject = new TruncatedPyramid(0, 0, 0, pyramid.getEdgeLength() + 1);
+                modelService.set(0, modelObject);
             }
         }
-//        service.list.add(new Cube(mouseEvent.getX()/ 50f, mouseEvent.getY()/ 50f, new Random().nextFloat()*2, 5f));
-//        System.out.println(mouseEvent.getX() + " " + mouseEvent.getY());
     }
 
     @Override

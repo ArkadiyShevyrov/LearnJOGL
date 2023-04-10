@@ -1,11 +1,10 @@
-package utils;
+package ru.mos.bmstu.jojl.viewcontrol.utils;
 
 import com.jogamp.opengl.GL2;
-import model.Coordinate;
-import model.ModelObject;
-import model.primitive.Cube;
-import model.Edge;
-import model.Polygon;
+import ru.mos.bmstu.jojl.model.model.Coordinate;
+import ru.mos.bmstu.jojl.model.model.ModelObject;
+import ru.mos.bmstu.jojl.model.model.Edge;
+import ru.mos.bmstu.jojl.model.model.Polygon;
 import java.util.List;
 
 public class DrawObject {

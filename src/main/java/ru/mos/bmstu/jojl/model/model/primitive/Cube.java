@@ -1,10 +1,10 @@
-package model.primitive;
+package ru.mos.bmstu.jojl.model.model.primitive;
 
 import lombok.Getter;
-import model.Coordinate;
-import model.Edge;
-import model.ModelObject;
-import model.Polygon;
+import ru.mos.bmstu.jojl.model.model.Coordinate;
+import ru.mos.bmstu.jojl.model.model.Edge;
+import ru.mos.bmstu.jojl.model.model.ModelObject;
+import ru.mos.bmstu.jojl.model.model.Polygon;
 
 @Getter
 public class Cube extends ModelObject {

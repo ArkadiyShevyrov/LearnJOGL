@@ -1,4 +1,4 @@
-package model;
+package ru.mos.bmstu.jojl.model.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
