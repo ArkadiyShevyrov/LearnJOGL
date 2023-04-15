@@ -4,6 +4,11 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <packaging>pom</packaging>
+    <modules>
+        <module>LearnJOGL-model</module>
+        <module>LearnJOGL-view</module>
+        <module>Application</module>
+    </modules>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -12,8 +17,8 @@
         <relativePath/>
     </parent>
 
-    <groupId>org.example</groupId>
-    <artifactId>JOGLTest</artifactId>
+    <groupId>ru.mos.bmstu.jogl</groupId>
+    <artifactId>LearnJOGLParent</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <properties>
@@ -35,16 +40,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.jogamp.gluegen</groupId>
-            <artifactId>gluegen-rt-main</artifactId>
-            <version>2.3.2</version>
-        </dependency>
-        <dependency>
-            <groupId>org.jogamp.jogl</groupId>
-            <artifactId>jogl-all-main</artifactId>
-            <version>2.3.2</version>
         </dependency>
     </dependencies>
 
