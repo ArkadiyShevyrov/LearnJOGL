@@ -55,23 +55,23 @@ public class JOGLKeyListener implements KeyListener {
                     }
                 }
             }
-            case KeyEvent.VK_5 -> {
-                glEventListener.setPolygon(!glEventListener.isPolygon());
-            }
-            case KeyEvent.VK_A -> {
-                glEventListener.setRotateZ(glEventListener.getRotateZ() + 1);
-            }
-            case KeyEvent.VK_D -> {
-                glEventListener.setRotateZ(glEventListener.getRotateZ() - 1);
-            }
-            case KeyEvent.VK_W -> {
-                glEventListener.setRotateX(glEventListener.getRotateX() + 1);
-                glEventListener.setRotateY(glEventListener.getRotateY() + 1);
-            }
-            case KeyEvent.VK_S -> {
-                glEventListener.setRotateX(glEventListener.getRotateX() - 1);
-                glEventListener.setRotateY(glEventListener.getRotateY() - 1);
-            }
+//            case KeyEvent.VK_5 -> {
+//                glEventListener.setPolygon(!glEventListener.isPolygon());
+//            }
+//            case KeyEvent.VK_A -> {
+//                glEventListener.setRotateZ(glEventListener.getRotateZ() + 1);
+//            }
+//            case KeyEvent.VK_D -> {
+//                glEventListener.setRotateZ(glEventListener.getRotateZ() - 1);
+//            }
+//            case KeyEvent.VK_W -> {
+//                glEventListener.setRotateX(glEventListener.getRotateX() + 1);
+//                glEventListener.setRotateY(glEventListener.getRotateY() + 1);
+//            }
+//            case KeyEvent.VK_S -> {
+//                glEventListener.setRotateX(glEventListener.getRotateX() - 1);
+//                glEventListener.setRotateY(glEventListener.getRotateY() - 1);
+//            }
         }
     }
 
