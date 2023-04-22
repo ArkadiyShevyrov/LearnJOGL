@@ -1,5 +1,6 @@
 package ru.mos.bmstu.jogl.view.viewcontrol.service;
 
+import com.jogamp.newt.opengl.GLWindow;
 import com.jogamp.opengl.GL2;
 import com.jogamp.opengl.GLAutoDrawable;
 import com.jogamp.opengl.GLEventListener;
@@ -14,6 +15,8 @@ import org.springframework.stereotype.Service;
 public class RawGL2ES2demo implements GLEventListener {
     @NonNull
     private final TwoDimensionalSpace dimensionalSpace;
+    @NonNull
+    private final CoordinationService coordinationService;
 
     @Override
     public void init(GLAutoDrawable drawable) {

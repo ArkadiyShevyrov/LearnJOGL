@@ -21,21 +21,25 @@ public class InitService {
     private JOGLMouseListener mouseListener;
     @NonNull
     private JOGLKeyListener keyListener;
+    @NonNull
+    private Windows windows;
 
     public void start() {
-        GLCapabilities caps = new GLCapabilities(GLProfile.get(GLProfile.GL2));
-        caps.setBackgroundOpaque(true);
-        GLWindow glWindow = getGlWindow(caps);
+
+        GLWindow glWindow = getGlWindow();
+        windows.setGlWindow(glWindow);
         FPSAnimator animator = new FPSAnimator(60, true);
         animator.add(glWindow);
         animator.start();
     }
 
-    private GLWindow getGlWindow(GLCapabilities caps) {
+    private GLWindow getGlWindow() {
+        GLCapabilities caps = new GLCapabilities(GLProfile.get(GLProfile.GL2));
+        caps.setBackgroundOpaque(true);
         GLWindow glWindow = GLWindow.create(caps);
         glWindow.setTitle("Raw GL2ES2 Demo");
         glWindow.setSize(500, 500);
-        glWindow.setUndecorated(false);
+//        glWindow.setUndecorated(false);
         glWindow.setPointerVisible(true);
         glWindow.setVisible(true);
         glWindow.addGLEventListener(glEventListener);

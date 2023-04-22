@@ -6,9 +6,8 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import ru.mos.bmstu.jogl.model.model.ModelObject;
-import ru.mos.bmstu.jogl.model.model.primitive.TruncatedPyramid;
 import ru.mos.bmstu.jogl.model.service.ModelService;
+import ru.mos.bmstu.jogl.view.viewcontrol.service.CoordinationService;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -16,15 +15,19 @@ import ru.mos.bmstu.jogl.model.service.ModelService;
 public class JOGLMouseListener implements MouseListener {
     @NonNull
     private final ModelService modelService;
+    @NonNull
+    private final CoordinationService coordinationService;
 
     @Override
     public void mouseClicked(MouseEvent mouseEvent) {
-        for (ModelObject modelObject : modelService.getListModelObjects()) {
-            if (modelObject instanceof TruncatedPyramid pyramid) {
-                modelObject = new TruncatedPyramid(0, 0, 0, pyramid.getEdgeLength() + 1);
-                modelService.set(0, modelObject);
-            }
-        }
+        coordinationService.sayTouch(mouseEvent.getX(), mouseEvent.getY());
+//        System.out.println((mouseEvent.getX() - 250)/25 + " " + -1*(mouseEvent.getY() - 250)/25);
+//        for (ModelObject modelObject : modelService.getListModelObjects()) {
+//            if (modelObject instanceof TruncatedPyramid pyramid) {
+//                modelObject = new TruncatedPyramid(0, 0, 0, pyramid.getEdgeLength() + 1);
+//                modelService.set(0, modelObject);
+//            }
+//        }
     }
 
     @Override
