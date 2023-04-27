@@ -1,4 +1,4 @@
-package ru.mos.bmstu.jogl.view.viewcontrol.service;
+package ru.mos.bmstu.jogl.view.viewcontrol.arhiv;
 
 import com.jogamp.opengl.GL2;
 import ru.mos.bmstu.jogl.model.model.ModelObject;

@@ -1,11 +1,13 @@
 package ru.mos.bmstu.jogl.model.model;
 
 import lombok.Getter;
+import lombok.Setter;
 import java.util.ArrayList;
 import java.util.List;
 
 @Getter
-public abstract class ModelObject {
+public class ModelObject {
+    @Setter
     protected Coordinate centralCord;
     protected List<Coordinate> vertexes = new ArrayList<>();
     protected List<Edge> edges = new ArrayList<>();
@@ -19,11 +21,18 @@ public abstract class ModelObject {
         this(new Coordinate(x, y, z));
     }
 
-    abstract protected void init();
+    public ModelObject(ModelObject modelObject) {
+        this.centralCord = modelObject.getCentralCord();
+        this.vertexes = modelObject.getVertexes();
+        this.edges = modelObject.getEdges();
+        this.polygons = modelObject.getPolygons();
+    }
 
-    abstract protected void initVertexes();
+    protected void init(){};
 
-    abstract protected void initEdges();
+    protected void initVertexes(){};
 
-    abstract protected void initPolygons();
+    protected void initEdges(){};
+
+    protected void initPolygons(){};
 }

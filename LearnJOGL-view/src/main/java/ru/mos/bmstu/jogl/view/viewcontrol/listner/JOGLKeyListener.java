@@ -9,14 +9,14 @@ import org.springframework.stereotype.Service;
 import ru.mos.bmstu.jogl.model.model.ModelObject;
 import ru.mos.bmstu.jogl.model.model.primitive.TruncatedPyramid;
 import ru.mos.bmstu.jogl.model.service.ModelService;
-import ru.mos.bmstu.jogl.view.viewcontrol.service.RawGL2ES2demo;
+import ru.mos.bmstu.jogl.view.viewcontrol.service.DrawService;
 
 @Slf4j
-@RequiredArgsConstructor
 @Service
+@RequiredArgsConstructor
 public class JOGLKeyListener implements KeyListener {
     @NonNull
-    private final RawGL2ES2demo glEventListener;
+    private final DrawService glEventListener;
     @NonNull
     private final ModelService modelService;
 

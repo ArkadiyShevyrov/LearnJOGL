@@ -3,7 +3,10 @@ package ru.mos.bmstu.jogl.model.database;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import ru.mos.bmstu.jogl.model.model.Coordinate;
 import ru.mos.bmstu.jogl.model.model.ModelObject;
+import ru.mos.bmstu.jogl.model.model.Plan;
+import ru.mos.bmstu.jogl.model.model.primitive.Cube;
 import ru.mos.bmstu.jogl.model.model.primitive.TruncatedPyramid;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +18,8 @@ public class DBObject {
     public List<ModelObject> list = new ArrayList<>();
 
     {
-        list.add(new TruncatedPyramid(0, 0, 0, 5));
+//        list.add(new Plan(new Coordinate(0,0,0)));
+        list.add(new Cube(0,0,0,100));
+        list.add(new TruncatedPyramid(0,0,0,140));
     }
 }
