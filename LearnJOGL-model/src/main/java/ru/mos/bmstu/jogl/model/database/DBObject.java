@@ -21,5 +21,7 @@ public class DBObject {
 //        list.add(new Plan(new Coordinate(0,0,0)));
         list.add(new Cube(0,0,0,100));
         list.add(new TruncatedPyramid(0,0,0,140));
+        list.add(new Cube(0,-40,-60, 100));
+        list.add(new TruncatedPyramid(40,80,100,30));
     }
 }

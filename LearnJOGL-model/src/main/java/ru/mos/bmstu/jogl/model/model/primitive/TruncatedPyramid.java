@@ -26,9 +26,9 @@ public class TruncatedPyramid extends ModelObject {
     }
 
     protected void updateVertexes() {
-        float y = centralCord.getY();
-        float x = centralCord.getX();
-        float z = centralCord.getZ();
+        float y = 0;
+        float x = 0;
+        float z = 0;
         float edgeRadius = edgeLength / 2;
         this.vertexes.set(0, new Coordinate(x - edgeRadius, y - edgeRadius, z - edgeRadius));
         this.vertexes.set(1, new Coordinate(x + edgeRadius, y - edgeRadius, z - edgeRadius));
@@ -44,9 +44,9 @@ public class TruncatedPyramid extends ModelObject {
 
     @Override
     protected void initVertexes() {
-        float y = centralCord.getY();
-        float x = centralCord.getX();
-        float z = centralCord.getZ();
+        float y = 0;
+        float x = 0;
+        float z = 0;
         float edgeRadius = edgeLength / 2;
         this.vertexes.add(new Coordinate(x - edgeRadius, y - edgeRadius, z - edgeRadius));
         this.vertexes.add(new Coordinate(x + edgeRadius, y - edgeRadius, z - edgeRadius));

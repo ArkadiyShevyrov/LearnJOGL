@@ -85,13 +85,21 @@ public class DrawObject {
         drawEdges(gl, modelObject);
     }
 
-    public static void drawModelObject(GL2 gl, ModelObject modelObject, float size) {
-        if (false) {
+    public static void drawModelObject(GL2 gl, ModelObject modelObject, float size, boolean isPolygon) {
+        if (isPolygon) {
             gl.glColor3f(1, 0, 1);
             drawPolygon(gl, modelObject, size);
         }
-
         gl.glColor3f(1, 1, 1);
+        drawEdges(gl, modelObject, size);
+    }
+
+    public static void drawCurrentModelObject(GL2 gl, ModelObject modelObject, float size, boolean isPolygon) {
+        if (isPolygon) {
+            gl.glColor3f(0.3f, 0, 1);
+            drawPolygon(gl, modelObject, size);
+        }
+        gl.glColor3f(0.3f, 1, 1);
         drawEdges(gl, modelObject, size);
     }
 

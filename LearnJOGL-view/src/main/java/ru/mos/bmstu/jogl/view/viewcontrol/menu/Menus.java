@@ -6,8 +6,10 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import ru.mos.bmstu.jogl.model.service.ModelService;
 import ru.mos.bmstu.jogl.view.viewcontrol.service.Window;
 import ru.mos.bmstu.jogl.view.viewcontrol.utils.DrawObject;
+import ru.mos.bmstu.jogl.view.viewcontrol.utils.MenuUtils;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,14 +20,14 @@ public class Menus {
     @NonNull
     private Window window;
     @NonNull
-    private MenuTools menuTools;
-    @NonNull
-    private MenuWorld menuWorld;
-    @NonNull
-    private MenuModels menuModels;
+    private ModelService modelService;
     private List<Menu> menus;
 
+
     public void init() {
+        MenuTools menuTools = new MenuTools();
+        MenuWorld menuWorld = new MenuWorld(modelService);
+        MenuModels menuModels = new MenuModels(modelService);
         menus = new ArrayList<>();
         int border = 10;
         menuTools.init(border, window.getHeight() - border - 100, window.getWidth() - 2 * border, 100);
@@ -56,27 +58,23 @@ public class Menus {
 
         gl.glColor3f(1, 0, 0);
         DrawObject.drawBorder(gl, border);
-        if (menu instanceof MenuWorld) {
+        if (menu instanceof MenuWorld menuWorld) {
             menuWorld.draw(gl);
-        } else if (menu instanceof MenuModels) {
+        } else if (menu instanceof MenuModels menuModels) {
             menuModels.draw(gl);
+        } else if (menu instanceof MenuTools menuTools) {
+            menuTools.draw(gl);
         }
     }
 
     public Menu getMenuInCord(int x, int y) {
         for (Menu menu : menus) {
             Rectangle border = menu.getBorder();
-            if (inRectangle(x, y, border)) {
+            if (MenuUtils.inRectangle(x, y, border)) {
                 return menu;
             }
         }
         return null;
     }
 
-    private boolean inRectangle(int x, int y, Rectangle rectangle) {
-        return x >= rectangle.getX() &&
-                x <= rectangle.getX()+ rectangle.getWidth() &&
-                y >= rectangle.getY() &&
-                y <= rectangle.getY()+rectangle.getHeight();
-    }
 }

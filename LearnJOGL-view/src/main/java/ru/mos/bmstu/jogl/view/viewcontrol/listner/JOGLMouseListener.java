@@ -30,10 +30,7 @@ public class JOGLMouseListener implements MouseListener {
         Menu menuInCord = menus.getMenuInCord((int) coordinate.getX(), (int) coordinate.getY());
         if (menuInCord != null) {
             Rectangle border = menuInCord.getBorder();
-            log.warn(String.valueOf(border));
-            coordinate.setX(coordinate.getX() - border.getX());
-            coordinate.setY(coordinate.getY() - border.getY());
-            log.warn(String.valueOf(coordinate));
+            menuInCord.clicked((int) (coordinate.getX() - border.getX()), (int) (coordinate.getY() - border.getY()));
         }
     }
 

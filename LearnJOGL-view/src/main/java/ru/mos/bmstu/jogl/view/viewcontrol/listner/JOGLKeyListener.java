@@ -6,73 +6,59 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import ru.mos.bmstu.jogl.model.model.ModelObject;
-import ru.mos.bmstu.jogl.model.model.primitive.TruncatedPyramid;
 import ru.mos.bmstu.jogl.model.service.ModelService;
-import ru.mos.bmstu.jogl.view.viewcontrol.service.DrawService;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class JOGLKeyListener implements KeyListener {
-    @NonNull
-    private final DrawService glEventListener;
+//    @NonNull
+//    private final MenuWorld menuWorld;
     @NonNull
     private final ModelService modelService;
 
     @Override
     public void keyPressed(KeyEvent keyEvent) {
-        switch (keyEvent.getKeyCode()) {
-            case KeyEvent.VK_1 -> {
-                for (ModelObject modelObject : modelService.getListModelObjects()) {
-                    if (modelObject instanceof TruncatedPyramid pyramid) {
-                        pyramid.setEdgeLength(pyramid.getEdgeLength() + 0.1f);
-                        modelService.set(0, modelObject);
-                    }
-                }
-            }
-            case KeyEvent.VK_2 -> {
-                for (ModelObject modelObject : modelService.getListModelObjects()) {
-                    if (modelObject instanceof TruncatedPyramid pyramid) {
-                        pyramid.setEdgeLength(pyramid.getEdgeLength() - 0.1f);
-                        modelService.set(0, modelObject);
-                    }
-                }
-            }
-            case KeyEvent.VK_3 -> {
-                for (ModelObject modelObject : modelService.getListModelObjects()) {
-                    if (modelObject instanceof TruncatedPyramid pyramid) {
-                        pyramid.setOffsetOxy(pyramid.getOffsetOxy() + 0.1f);
-                        modelService.set(0, pyramid);
-                    }
-                }
-            }
-            case KeyEvent.VK_4 -> {
-                for (ModelObject modelObject : modelService.getListModelObjects()) {
-                    if (modelObject instanceof TruncatedPyramid pyramid) {
-                        pyramid.setOffsetOxy(pyramid.getOffsetOxy() - 0.1f);
-                        modelService.set(0, pyramid);
-                    }
-                }
-            }
+//        switch (keyEvent.getKeyCode()) {
+//            case KeyEvent.VK_1 -> {
+//                menuWorld.updSize(1.1f);
+//            }
+//            case KeyEvent.VK_2 -> {
+//                menuWorld.updSize(0.9f);
+//            }
+//            case KeyEvent.VK_3 -> {
+//                for (ModelObject modelObject : modelService.getListModelObjects()) {
+//                    if (modelObject instanceof TruncatedPyramid pyramid) {
+//                        pyramid.setOffsetOxy(pyramid.getOffsetOxy() + 0.1f);
+//                        modelService.set(0, pyramid);
+//                    }
+//                }
+//            }
+//            case KeyEvent.VK_4 -> {
+//                for (ModelObject modelObject : modelService.getListModelObjects()) {
+//                    if (modelObject instanceof TruncatedPyramid pyramid) {
+//                        pyramid.setOffsetOxy(pyramid.getOffsetOxy() - 0.1f);
+//                        modelService.set(0, pyramid);
+//                        log.warn(String.valueOf(pyramid.getOffsetOxy()));
+//                    }
+//                }
+//            }
 //            case KeyEvent.VK_5 -> {
 //                glEventListener.setPolygon(!glEventListener.isPolygon());
 //            }
 //            case KeyEvent.VK_A -> {
-//                glEventListener.setRotateZ(glEventListener.getRotateZ() + 1);
+//                menuWorld.updCenterCoordinate(new Coordinate(-10,0,0));
 //            }
 //            case KeyEvent.VK_D -> {
-//                glEventListener.setRotateZ(glEventListener.getRotateZ() - 1);
+//                menuWorld.updCenterCoordinate(new Coordinate(10,0,0));
 //            }
 //            case KeyEvent.VK_W -> {
-//                glEventListener.setRotateX(glEventListener.getRotateX() + 1);
-//                glEventListener.setRotateY(glEventListener.getRotateY() + 1);
+//                menuWorld.updCenterCoordinate(new Coordinate(0,10,0));
 //            }
 //            case KeyEvent.VK_S -> {
-//                glEventListener.setRotateX(glEventListener.getRotateX() - 1);
-//                glEventListener.setRotateY(glEventListener.getRotateY() - 1);
+//                menuWorld.updCenterCoordinate(new Coordinate(0,-10,0));
 //            }
-        }
+//        }
     }
 
     @Override

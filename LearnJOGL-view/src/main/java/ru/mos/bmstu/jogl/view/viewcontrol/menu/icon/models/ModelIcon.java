@@ -1,4 +1,4 @@
-package ru.mos.bmstu.jogl.view.viewcontrol.menu.icon;
+package ru.mos.bmstu.jogl.view.viewcontrol.menu.icon.models;
 
 import com.jogamp.nativewindow.util.Rectangle;
 import com.jogamp.opengl.GL2;
@@ -11,6 +11,8 @@ import ru.mos.bmstu.jogl.model.model.ModelObject;
 public class ModelIcon {
     private Rectangle border = new Rectangle();
     private ModelObject modelObject;
+    private boolean current;
+    private int index;
 
     public void draw(GL2 gl) {
 
