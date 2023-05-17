@@ -1,6 +1,7 @@
 import org.junit.jupiter.api.Test;
 import ru.mos.bmstu.jogl.model.model.Coordinate3D;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -8,34 +9,45 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class Test2 {
 
-    public static boolean isPointInPolygon(Coordinate3D point, List<Coordinate3D> polygon) {
-        int intersections = 0;
-        for (int i = 0; i < polygon.size(); i++) {
-            Coordinate3D p1 = polygon.get(i);
-            Coordinate3D p2 = polygon.get((i + 1) % polygon.size());
-            if (point.getY() > Math.min(p1.getY(), p2.getY()) &&
-                    point.getY() <= Math.max(p1.getY(), p2.getY()) &&
-                    point.getX() <= Math.max(p1.getX(), p2.getX()) &&
-                    p1.getY() != p2.getY()) {
-                double xIntersection = (point.getY() - p1.getY()) * (p2.getX() - p1.getX()) / (p2.getY() - p1.getY()) + p1.getX();
-                if (p1.getX() == p2.getX() || point.getX() <= xIntersection) {
-                    intersections++;
+    public static int[][] uniformFilter(int[][] pixels, int N) {
+        int height = pixels.length;
+        int width = pixels[0].length;
+        int[][] filteredPixels = new int[height][width];
+        int halfN = N / 2;
+
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+                int sum = 0;
+                int count = 0;
+                for (int dy = -halfN; dy <= halfN; dy++) {
+                    int ny = y + dy;
+                    if (ny < 0 || ny >= height) {
+                        continue;
+                    }
+                    for (int dx = -halfN; dx <= halfN; dx++) {
+                        int nx = x + dx;
+                        if (nx < 0 || nx >= width) {
+                            continue;
+                        }
+                        sum += pixels[ny][nx];
+                        count++;
+                    }
                 }
+                int average = count > 0 ? sum / count : 0;
+                filteredPixels[y][x] = average;
             }
         }
-        return intersections % 2 == 1;
+
+        return filteredPixels;
     }
 
     @Test
     public void testIsEdgesClosed() {
-        List<Coordinate3D> list = new ArrayList<>();
-        list.add(new Coordinate3D(2, 0, 0));
-        list.add(new Coordinate3D(3, 2, 0));
-        list.add(new Coordinate3D(0, 3, 0));
-        list.add(new Coordinate3D(1, 2, 0));
-
-        assertTrue(isPointInPolygon(new Coordinate3D(2, 2, 0), list));
-        assertFalse(isPointInPolygon(new Coordinate3D(0, 0, 0), list));
+        int[][] pixels = {{0, 0, 0, 0}, {0, 100, 100, 0}, {0, 0, 0, 0}};
+        int[][] filteredPixels = uniformFilter(pixels, 2);
+        for (int[] row : filteredPixels) {
+            System.out.println(Arrays.toString(row));
+        }
     }
 }
 

@@ -111,7 +111,7 @@ public class DrawObject {
         int err = dx - dy;
 
         while (x1 != x2 || y1 != y2) {
-            matrix[x1][y1] = 1;
+            matrix[x1][y1] = 50;
 
             int e2 = 2 * err;
             if (e2 > -dy) {
@@ -211,7 +211,8 @@ public class DrawObject {
 
             fill(matrix, (int) (coordinate3D.getX() + border.getWidth()) / sizePixel,
                     (int) (coordinate3D.getY() + border.getHeight()) / sizePixel,
-                    2, 1);
+                    100, 50);
+            matrix = uniformFilter(matrix, 3);
         } else {
             drawEdges(gl, modelObject, size);
         }
@@ -219,14 +220,11 @@ public class DrawObject {
         for (int i = 0; i < matrix.length; i++) {
             for (int j = 0; j < matrix[0].length; j++) {
                 int a = matrix[i][j];
-                gl.glColor3f(1, 1, 1);
-                if (a == 1) {
-                    drawPixel(gl, i * sizePixel - border.getWidth(), j * sizePixel - border.getHeight(), size, sizePixel);
-                }
-                gl.glColor3f(1, 0, 1);
-                if (a == 2) {
-                    drawPixel(gl, i * sizePixel - border.getWidth(), j * sizePixel - border.getHeight(), size, sizePixel);
-                }
+                if (a == 0) continue;
+
+                gl.glColor3f((float) (a/100.0), (float) 0, (float) ((float)a/100.0));
+                drawPixel(gl, i * sizePixel - border.getWidth(), j * sizePixel - border.getHeight(), size, sizePixel);
+
             }
         }
     }
@@ -253,17 +251,17 @@ public class DrawObject {
         for (int i = minX; i < maxX; i++) {
             for (int j = minY; j < maxY; j++) {
                 Coordinate3D coordinateD = new Coordinate3D(i, j, 0);
-                Coordinate3D coordinate2D = new Coordinate3D(i+10, j, 0);
-                Coordinate3D coordinate3D = new Coordinate3D(i-10, j, 0);
-                Coordinate3D coordinate4D = new Coordinate3D(i, j+10, 0);
-                Coordinate3D coordinate5D = new Coordinate3D(i, j-10, 0);
+                Coordinate3D coordinate2D = new Coordinate3D(i + 10, j, 0);
+                Coordinate3D coordinate3D = new Coordinate3D(i - 10, j, 0);
+                Coordinate3D coordinate4D = new Coordinate3D(i, j + 10, 0);
+                Coordinate3D coordinate5D = new Coordinate3D(i, j - 10, 0);
                 if (isPointInPolygon(coordinateD, modelObject.getVertexes()) &&
                         isPointInPolygon(coordinate2D, modelObject.getVertexes()) &&
                         isPointInPolygon(coordinate3D, modelObject.getVertexes()) &&
                         isPointInPolygon(coordinate4D, modelObject.getVertexes()) &&
                         isPointInPolygon(coordinate5D, modelObject.getVertexes())
                 ) {
-                    return coordinate2D;
+                    return coordinateD;
                 }
             }
         }
@@ -321,5 +319,37 @@ public class DrawObject {
             }
         }
         return intersections % 2 == 1;
+    }
+
+    public static int[][] uniformFilter(int[][] pixels, int N) {
+        int height = pixels.length;
+        int width = pixels[0].length;
+        int[][] filteredPixels = new int[height][width];
+        int halfN = N / 2;
+
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+                int sum = 0;
+                int count = 0;
+                for (int dy = -halfN; dy <= halfN; dy++) {
+                    int ny = y + dy;
+                    if (ny < 0 || ny >= height) {
+                        continue;
+                    }
+                    for (int dx = -halfN; dx <= halfN; dx++) {
+                        int nx = x + dx;
+                        if (nx < 0 || nx >= width) {
+                            continue;
+                        }
+                        sum += pixels[ny][nx];
+                        count++;
+                    }
+                }
+                int average = count > 0 ? sum / count : 0;
+                filteredPixels[y][x] = average;
+            }
+        }
+
+        return filteredPixels;
     }
 }
