@@ -3,7 +3,6 @@ package ru.mos.bmstu.jogl.view.viewcontrol.menu;
 import com.jogamp.nativewindow.util.Rectangle;
 import lombok.Getter;
 import lombok.Setter;
-import ru.mos.bmstu.jogl.model.model.Coordinate;
 
 @Getter
 @Setter

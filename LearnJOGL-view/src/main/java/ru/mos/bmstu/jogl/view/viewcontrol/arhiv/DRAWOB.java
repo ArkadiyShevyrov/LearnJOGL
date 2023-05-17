@@ -2,7 +2,6 @@ package ru.mos.bmstu.jogl.view.viewcontrol.arhiv;
 
 import com.jogamp.opengl.GL2;
 import ru.mos.bmstu.jogl.model.model.ModelObject;
-import ru.mos.bmstu.jogl.model.model.primitive.Cube;
 import ru.mos.bmstu.jogl.view.viewcontrol.utils.DrawObject;
 import java.nio.DoubleBuffer;
 
@@ -88,7 +87,7 @@ public class DRAWOB {
 
         gl.glColor3f(1, 0, 1);
 
-        drawModelObject(gl, new Cube(0.5f, 0, 0, 0.3f));
+//        drawModelObject(gl, new Cube(0.5f, 0, 0, 0.3f));
     }
 
     private void drawStaticCube(GL2 gl) {
@@ -103,7 +102,7 @@ public class DRAWOB {
         gl.glRotatef(0, 0, 0, 1);
 
         gl.glColor3f(1, 1, 1);
-        drawModelObject(gl, new Cube(-0.5f, 0, 0, 0.3f));
+//        drawModelObject(gl, new Cube(-0.5f, 0, 0, 0.3f));
     }
 
 }

@@ -47,16 +47,16 @@ public class JOGLKeyListener implements KeyListener {
 //                glEventListener.setPolygon(!glEventListener.isPolygon());
 //            }
 //            case KeyEvent.VK_A -> {
-//                menuWorld.updCenterCoordinate(new Coordinate(-10,0,0));
+//                menuWorld.updCenterCoordinate(new Coordinate3D(-10,0,0));
 //            }
 //            case KeyEvent.VK_D -> {
-//                menuWorld.updCenterCoordinate(new Coordinate(10,0,0));
+//                menuWorld.updCenterCoordinate(new Coordinate3D(10,0,0));
 //            }
 //            case KeyEvent.VK_W -> {
-//                menuWorld.updCenterCoordinate(new Coordinate(0,10,0));
+//                menuWorld.updCenterCoordinate(new Coordinate3D(0,10,0));
 //            }
 //            case KeyEvent.VK_S -> {
-//                menuWorld.updCenterCoordinate(new Coordinate(0,-10,0));
+//                menuWorld.updCenterCoordinate(new Coordinate3D(0,-10,0));
 //            }
 //        }
     }

@@ -8,10 +8,10 @@ import java.util.List;
 
 @Data
 @AllArgsConstructor
-public class Polygon {
-    List<Coordinate> vertexes = new ArrayList<>();
+public class Polygon3D {
+    List<Edge3D> edges = new ArrayList<>();
 
-    public Polygon(Coordinate ... coordinates) {
-        vertexes.addAll(Arrays.stream(coordinates).toList());
+    public Polygon3D(Edge3D... edges) {
+        this.edges.addAll(Arrays.stream(edges).toList());
     }
 }

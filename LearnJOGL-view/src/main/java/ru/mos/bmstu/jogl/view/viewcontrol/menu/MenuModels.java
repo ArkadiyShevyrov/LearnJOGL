@@ -6,7 +6,7 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-import ru.mos.bmstu.jogl.model.model.Coordinate;
+import ru.mos.bmstu.jogl.model.model.Coordinate3D;
 import ru.mos.bmstu.jogl.model.model.ModelObject;
 import ru.mos.bmstu.jogl.model.service.ModelService;
 import ru.mos.bmstu.jogl.model.utils.ModelObjectUtils;
@@ -34,7 +34,7 @@ public class MenuModels extends Menu {
             ModelObject iconModel = new ModelObject(modelObject);
             modelIcon.setModelObject(iconModel);
             modelIcon.setBorder(new Rectangle(50, 50 + 100 * index++, 100, 100));
-            modelIcon.getModelObject().setCentralCord(new Coordinate(0, 0, 0));
+            modelIcon.getModelObject().setCentralCord(new Coordinate3D(0, 0, 0));
             modelIcon.setIndex(i);
             icons.add(modelIcon);
         }
@@ -65,7 +65,7 @@ public class MenuModels extends Menu {
             gl.glRotatef(0, 0, 1, 0);
             gl.glRotatef(60, 0, 0, 1);
 
-            Coordinate maxCord = ModelObjectUtils.getMaxCord(icon.getModelObject());
+            Coordinate3D maxCord = ModelObjectUtils.getMaxCord(icon.getModelObject());
             float maxNumber = Math.max(Math.max(maxCord.getX(), maxCord.getY()), maxCord.getZ());
             float size = 100 / (maxNumber * 2);
             DrawObject.drawModelObject(gl, icon.getModelObject(), size, true);

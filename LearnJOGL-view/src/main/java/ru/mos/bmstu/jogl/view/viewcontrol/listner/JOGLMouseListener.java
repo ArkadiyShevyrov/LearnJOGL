@@ -7,7 +7,7 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import ru.mos.bmstu.jogl.model.model.Coordinate;
+import ru.mos.bmstu.jogl.model.model.Coordinate3D;
 import ru.mos.bmstu.jogl.model.service.ModelService;
 import ru.mos.bmstu.jogl.view.viewcontrol.arhiv.CoordinationService;
 import ru.mos.bmstu.jogl.view.viewcontrol.menu.Menu;
@@ -26,7 +26,7 @@ public class JOGLMouseListener implements MouseListener {
 
     @Override
     public void mouseClicked(MouseEvent mouseEvent) {
-        Coordinate coordinate = coordinationService.sayTouch(mouseEvent.getX(), mouseEvent.getY());
+        Coordinate3D coordinate = coordinationService.sayTouch(mouseEvent.getX(), mouseEvent.getY());
         Menu menuInCord = menus.getMenuInCord((int) coordinate.getX(), (int) coordinate.getY());
         if (menuInCord != null) {
             Rectangle border = menuInCord.getBorder();

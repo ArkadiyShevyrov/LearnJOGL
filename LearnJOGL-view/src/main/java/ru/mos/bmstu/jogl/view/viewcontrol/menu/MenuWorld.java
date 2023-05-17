@@ -3,18 +3,19 @@ package ru.mos.bmstu.jogl.view.viewcontrol.menu;
 import com.jogamp.opengl.GL2;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import ru.mos.bmstu.jogl.model.model.Coordinate;
+import ru.mos.bmstu.jogl.model.model.Coordinate3D;
 import ru.mos.bmstu.jogl.model.model.ModelObject;
 import ru.mos.bmstu.jogl.model.service.ModelService;
+import ru.mos.bmstu.jogl.model.service.StableService;
 import ru.mos.bmstu.jogl.view.viewcontrol.utils.DrawObject;
 
 
 @RequiredArgsConstructor
 public class MenuWorld extends Menu {
     private float size = 1;
-    private Coordinate centerCoordinate = new Coordinate(0, 0, 0);
+    private Coordinate3D centerCoordinate = new Coordinate3D(0, 0, 0);
     @NonNull
-    private ModelService modelService;
+    private StableService stableService;
 
     public void updSize(float mul) {
         size *= mul;
@@ -23,8 +24,8 @@ public class MenuWorld extends Menu {
         }
     }
 
-    public void updCenterCoordinate(Coordinate coordinate) {
-        centerCoordinate = new Coordinate(coordinate.getX() + centerCoordinate.getX(),
+    public void updCenterCoordinate(Coordinate3D coordinate) {
+        centerCoordinate = new Coordinate3D(coordinate.getX() + centerCoordinate.getX(),
                 coordinate.getY() + centerCoordinate.getY(),
                 coordinate.getZ() + centerCoordinate.getZ());
     }
@@ -38,9 +39,9 @@ public class MenuWorld extends Menu {
         gl.glMatrixMode(GL2.GL_MODELVIEW);
         gl.glLoadIdentity();
 
-        gl.glRotatef(-90 + 15, 1, 0, 0);
-        gl.glRotatef(0, 0, 1, 0);
-        gl.glRotatef(60, 0, 0, 1);
+//        gl.glRotatef(-90 + 15, 1, 0, 0);
+//        gl.glRotatef(0, 0, 1, 0);
+//        gl.glRotatef(60, 0, 0, 1);
 
         gl.glColor3f(0, 1, 0);
         gl.glBegin(GL2.GL_LINES);
@@ -64,22 +65,24 @@ public class MenuWorld extends Menu {
                 size * (0 + centerCoordinate.getY()), size * (100 + centerCoordinate.getZ()));
         gl.glEnd();
 
-        for (ModelObject modelObject : modelService.getListModelObjects()) {
-            ModelObject drawObject = new ModelObject(modelObject);
-            Coordinate centralCord = drawObject.getCentralCord();
-            drawObject.setCentralCord(new Coordinate(centralCord.getX() + centerCoordinate.getX(),
-                    centralCord.getY() + centerCoordinate.getY(),
-                    centralCord.getZ() + centerCoordinate.getZ()));
-            if (modelObject.equals(modelService.getCurrentModelObject())) {
-                DrawObject.drawCurrentModelObject(gl, drawObject, size, true);
-                continue;
-            }
-            DrawObject.drawModelObject(gl, drawObject, size, true);
-        }
+//        for (ModelObject modelObject : modelService.getListModelObjects()) {
+//            ModelObject drawObject = new ModelObject(modelObject);
+//            Coordinate3D centralCord = drawObject.getCentralCord();
+//            drawObject.setCentralCord(new Coordinate3D(centralCord.getX() + centerCoordinate.getX(),
+//                    centralCord.getY() + centerCoordinate.getY(),
+//                    centralCord.getZ() + centerCoordinate.getZ()));
+//            if (modelObject.equals(modelService.getCurrentModelObject())) {
+//                DrawObject.drawCurrentModelObject(gl, drawObject, size, true);
+//                continue;
+//            }
+//            DrawObject.drawModelObject(gl, drawObject, size, true);
+//        }
+
+        DrawObject.drawModelObject(gl, stableService.getCurrentModelObject(), size, true, border);
     }
 
     @Override
     public void clicked(int x, int y) {
-
+        stableService.click((x - border.getWidth()/2)*2,(y -border.getHeight()/2)*2);
     }
 }

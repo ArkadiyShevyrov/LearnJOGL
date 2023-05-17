@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ru.mos.bmstu.jogl.model.service.ModelService;
+import ru.mos.bmstu.jogl.model.service.StableService;
 import ru.mos.bmstu.jogl.view.viewcontrol.service.Window;
 import ru.mos.bmstu.jogl.view.viewcontrol.utils.DrawObject;
 import ru.mos.bmstu.jogl.view.viewcontrol.utils.MenuUtils;
@@ -21,12 +22,14 @@ public class Menus {
     private Window window;
     @NonNull
     private ModelService modelService;
+    @NonNull
+    private StableService stableService;
     private List<Menu> menus;
 
 
     public void init() {
         MenuTools menuTools = new MenuTools();
-        MenuWorld menuWorld = new MenuWorld(modelService);
+        MenuWorld menuWorld = new MenuWorld(stableService);
         MenuModels menuModels = new MenuModels(modelService);
         menus = new ArrayList<>();
         int border = 10;
@@ -34,6 +37,7 @@ public class Menus {
         menuModels.init(border, border, 200, window.getHeight() - border - 100 - 2 * border);
         menuWorld.init(border + 200 + border, border, window.getWidth() - 200 - 20 - border, window.getHeight() - border - 100 - 20);
         menuModels.initIcons();
+        menuTools.initIcons();
         menus.add(menuTools);
         menus.add(menuModels);
         menus.add(menuWorld);

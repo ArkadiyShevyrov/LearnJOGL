@@ -8,17 +8,18 @@ import java.util.List;
 @Getter
 public class ModelObject {
     @Setter
-    protected Coordinate centralCord;
-    protected List<Coordinate> vertexes = new ArrayList<>();
-    protected List<Edge> edges = new ArrayList<>();
-    protected List<Polygon> polygons = new ArrayList<>();
+    protected Coordinate3D centralCord;
+    protected List<Coordinate3D> vertexes = new ArrayList<>();
+    protected List<Edge3D> edges = new ArrayList<>();
+    protected List<Polygon3D> polygons = new ArrayList<>();
+    protected List<Plan> plans = new ArrayList<>();
 
-    public ModelObject(Coordinate centralCord) {
+    public ModelObject(Coordinate3D centralCord) {
         this.centralCord = centralCord;
     }
 
     public ModelObject(float x, float y, float z) {
-        this(new Coordinate(x, y, z));
+        this(new Coordinate3D(x, y, z));
     }
 
     public ModelObject(ModelObject modelObject) {
@@ -26,13 +27,6 @@ public class ModelObject {
         this.vertexes = modelObject.getVertexes();
         this.edges = modelObject.getEdges();
         this.polygons = modelObject.getPolygons();
+        this.plans = modelObject.getPlans();
     }
-
-    protected void init(){};
-
-    protected void initVertexes(){};
-
-    protected void initEdges(){};
-
-    protected void initPolygons(){};
 }

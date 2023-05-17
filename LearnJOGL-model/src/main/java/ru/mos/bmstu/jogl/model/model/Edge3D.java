@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class Edge {
-    private Coordinate startCord;
-    private Coordinate endCord;
+public class Edge3D {
+    private Coordinate3D startCord;
+    private Coordinate3D endCord;
 }

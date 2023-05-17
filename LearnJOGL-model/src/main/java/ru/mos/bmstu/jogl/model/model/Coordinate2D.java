@@ -5,8 +5,12 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class Coordinate {
+public class Coordinate2D {
     private float x;
     private float y;
-    private float z;
+
+    public Coordinate2D(Coordinate2D coordinate) {
+        this.x = coordinate.getX();
+        this.y = coordinate.getY();
+    }
 }
