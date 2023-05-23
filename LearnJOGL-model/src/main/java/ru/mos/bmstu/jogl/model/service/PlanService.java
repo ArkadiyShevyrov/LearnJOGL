@@ -6,16 +6,18 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ru.mos.bmstu.jogl.model.model.*;
 import ru.mos.bmstu.jogl.model.utils.ConverterND;
+import ru.mos.bmstu.jogl.model.utils.Intersection;
 import ru.mos.bmstu.jogl.model.utils.ModelUtils;
 import ru.mos.bmstu.jogl.model.utils.PlanUtils;
+import java.util.List;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class PlanService {
+    private Plan currentPlane = new Plan(new Coordinate3D(0, 0, 0));
     @Getter
     private PlanEnum planEnum;
-    private Plan currentPlane = new Plan(new Coordinate3D(0,0,0));
     private Polygon2D currentPolygon;
 
     public void click(float x, float y) {
@@ -52,6 +54,23 @@ public class PlanService {
             case NEW_POLYGON -> {
                 currentPolygon = new Polygon2D();
             }
+            case INTERSECTION_OF_POLYGONS -> {
+                intersectionPolygons();
+            }
+        }
+    }
+
+    private void intersectionPolygons() {
+        List<Polygon2D> polygons = currentPlane.getPolygons();
+        if (polygons.size() == 1) {
+            return;
+        }
+        if (polygons.size() == 2) {
+            List<Coordinate2D> intersection = Intersection.intersection(polygons.get(0), polygons.get(1));
+            List<Edge2D> edgesFromVertexes = PlanUtils.createEdgesFromVertexes(intersection);
+            Polygon2D polygon = new Polygon2D(edgesFromVertexes);
+            currentPlane = new Plan(currentPlane.getCentralCord());
+            PlanUtils.addNewPolygon(currentPlane, polygon);
         }
     }
 
@@ -68,30 +87,21 @@ public class PlanService {
         if (planEnum == null) {
             return null;
         }
-
         switch (planEnum) {
             case NEW_POLYGON -> {
-                if (currentPolygon != null) {
-                    ModelObject modelObject = new ModelObject(0, 0, 0);
-                    ModelUtils.addNewPolygon(modelObject, ConverterND.convertTo3D(currentPolygon));
-                    return modelObject;
-                }
+                ModelObject modelObject = new ModelObject(0, 0, 0);
+                ModelUtils.addNewPolygon(modelObject, ConverterND.convertTo3D(currentPolygon));
+                return modelObject;
             }
-            case NONE -> {
-                if (currentPlane != null) {
-                    return PlanUtils.convertToModel(currentPlane);
-                }
+            default -> {
+                return PlanUtils.convertToModel(currentPlane);
             }
         }
-        return null;
-    }
-
-    public void clearAll() {
-        currentPolygon = new Polygon2D();
     }
 
     public enum PlanEnum {
         NONE,
         NEW_POLYGON,
+        INTERSECTION_OF_POLYGONS,
     }
 }

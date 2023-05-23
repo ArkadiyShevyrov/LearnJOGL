@@ -7,10 +7,10 @@ import java.util.List;
 public class PlanUtils {
     public static void addNewPolygon(Plan plan, Polygon2D polygon) {
         List<Edge2D> edgesPolygon = polygon.getEdges();
-        createPolygonFromEdges(plan, edgesPolygon);
+        addPolygonFromEdges(plan, edgesPolygon);
     }
 
-    public static void createPolygonFromEdges(Plan plan, List<Edge2D> edges) {
+    public static void addPolygonFromEdges(Plan plan, List<Edge2D> edges) {
         List<Coordinate2D> vertexesModel = plan.getVertexes();
         List<Edge2D> edgesModel = plan.getEdges();
         int firstIndexVertex = vertexesModel.size();
@@ -32,6 +32,17 @@ public class PlanUtils {
             newEdgeList.add(edgesModel.get(i));
         }
         plan.getPolygons().add(new Polygon2D(newEdgeList));
+    }
+
+    public static List<Edge2D> createEdgesFromVertexes(List<Coordinate2D> vertexes) {
+        List<Edge2D> edges = new ArrayList<>();
+        for (int i = 1; i < vertexes.size(); i++) {
+            edges.add(new Edge2D(vertexes.get(i-1), vertexes.get(i)));
+            if (i == vertexes.size() - 1) {
+                edges.add(new Edge2D(vertexes.get(i), vertexes.get(0)));
+            }
+        }
+        return edges;
     }
 
     public static ModelObject convertToModel(Plan currentPlane) {
