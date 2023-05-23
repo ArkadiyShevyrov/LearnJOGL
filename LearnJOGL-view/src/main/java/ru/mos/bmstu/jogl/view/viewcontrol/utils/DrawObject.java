@@ -2,10 +2,7 @@ package ru.mos.bmstu.jogl.view.viewcontrol.utils;
 
 import com.jogamp.nativewindow.util.Rectangle;
 import com.jogamp.opengl.GL2;
-import ru.mos.bmstu.jogl.model.model.Coordinate3D;
-import ru.mos.bmstu.jogl.model.model.Edge3D;
-import ru.mos.bmstu.jogl.model.model.ModelObject;
-import ru.mos.bmstu.jogl.model.model.Polygon3D;
+import ru.mos.bmstu.jogl.model.model.*;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
@@ -94,8 +91,8 @@ public class DrawObject {
         drawEdges(gl, modelObject, size);
     }
 
-    private static void drawEdgesPixels(ModelObject modelObject, Rectangle border, int[][] matrix, int sizePixel) {
-        for (Edge3D edge : modelObject.getEdges()) {
+    private static void drawEdgesPixels(Polygon3D polygon, Rectangle border, int[][] matrix, int sizePixel) {
+        for (Edge3D edge : polygon.getEdges()) {
             Coordinate3D startCord = edge.getStartCord();
             Coordinate3D endCord = edge.getEndCord();
             drawLine((int) (startCord.getX() + border.getWidth()) / sizePixel, (int) (startCord.getY() + border.getHeight()) / sizePixel,
@@ -200,52 +197,55 @@ public class DrawObject {
     }
 
     public static void drawModelObject(GL2 gl, ModelObject modelObject, float size, boolean isPolygon, Rectangle border) {
-        int sizePixel = 10;
-        boolean pixels = true;
-        int[][] matrix = new int[(border.getWidth() * 2 + 1)][(border.getHeight() * 2 + 1)];
+        for (Polygon3D polygon : modelObject.getPolygons()) {
+            int sizePixel = 10;
+            boolean pixels = true;
+            int[][] matrix = new int[(border.getWidth() * 2 + 1)][(border.getHeight() * 2 + 1)];
 
-        gl.glColor3f(1, 1, 1);
-        if (pixels && modelObject.getEdges().size() > 1) {
-            drawEdgesPixels(modelObject, border, matrix, sizePixel);
-            Coordinate3D coordinate3D = getCoordinate3D(modelObject);
+            gl.glColor3f(1, 1, 1);
+            if (pixels && polygon.getEdges().size() > 1) {
+                drawEdgesPixels(polygon, border, matrix, sizePixel);
+                Coordinate3D coordinate3D = getCoordinate3D(polygon);
 
-            fill(matrix, (int) (coordinate3D.getX() + border.getWidth()) / sizePixel,
-                    (int) (coordinate3D.getY() + border.getHeight()) / sizePixel,
-                    100, 50);
-            matrix = uniformFilter(matrix, 3);
-        } else {
-            drawEdges(gl, modelObject, size);
-        }
+                fill(matrix, (int) (coordinate3D.getX() + border.getWidth()) / sizePixel,
+                        (int) (coordinate3D.getY() + border.getHeight()) / sizePixel,
+                        100, 50);
+                matrix = uniformFilter(matrix, 3);
+            }
+//            else {
+//                drawEdges(gl, modelObject, size);
+//            }
 
-        for (int i = 0; i < matrix.length; i++) {
-            for (int j = 0; j < matrix[0].length; j++) {
-                int a = matrix[i][j];
-                if (a == 0) continue;
+            for (int i = 0; i < matrix.length; i++) {
+                for (int j = 0; j < matrix[0].length; j++) {
+                    int a = matrix[i][j];
+                    if (a == 0) continue;
 
-                gl.glColor3f((float) (a/100.0), (float) 0, (float) ((float)a/100.0));
-                drawPixel(gl, i * sizePixel - border.getWidth(), j * sizePixel - border.getHeight(), size, sizePixel);
+                    gl.glColor3f((float) (a/100.0), (float) 0, (float) ((float)a/100.0));
+                    drawPixel(gl, i * sizePixel - border.getWidth(), j * sizePixel - border.getHeight(), size, sizePixel);
 
+                }
             }
         }
     }
 
-    private static Coordinate3D getCoordinate3D(ModelObject modelObject) {
-        int minX = (int) modelObject.getVertexes().get(0).getX();
-        int maxX = (int) modelObject.getVertexes().get(0).getX();
-        int minY = (int) modelObject.getVertexes().get(0).getY();
-        int maxY = (int) modelObject.getVertexes().get(0).getY();
-        for (int i = 1; i < modelObject.getVertexes().size(); i++) {
-            if (modelObject.getVertexes().get(i).getX() < minX) {
-                minX = (int) modelObject.getVertexes().get(i).getX();
+    private static Coordinate3D getCoordinate3D(Polygon3D polygon) {
+        int minX = (int) polygon.getVertexes().get(0).getX();
+        int maxX = (int) polygon.getVertexes().get(0).getX();
+        int minY = (int) polygon.getVertexes().get(0).getY();
+        int maxY = (int) polygon.getVertexes().get(0).getY();
+        for (int i = 1; i < polygon.getVertexes().size(); i++) {
+            if (polygon.getVertexes().get(i).getX() < minX) {
+                minX = (int) polygon.getVertexes().get(i).getX();
             }
-            if (modelObject.getVertexes().get(i).getX() > maxX) {
-                maxX = (int) modelObject.getVertexes().get(i).getX();
+            if (polygon.getVertexes().get(i).getX() > maxX) {
+                maxX = (int) polygon.getVertexes().get(i).getX();
             }
-            if (modelObject.getVertexes().get(i).getY() < minY) {
-                minY = (int) modelObject.getVertexes().get(i).getY();
+            if (polygon.getVertexes().get(i).getY() < minY) {
+                minY = (int) polygon.getVertexes().get(i).getY();
             }
-            if (modelObject.getVertexes().get(i).getY() > maxY) {
-                maxY = (int) modelObject.getVertexes().get(i).getY();
+            if (polygon.getVertexes().get(i).getY() > maxY) {
+                maxY = (int) polygon.getVertexes().get(i).getY();
             }
         }
         for (int i = minX; i < maxX; i++) {
@@ -255,11 +255,11 @@ public class DrawObject {
                 Coordinate3D coordinate3D = new Coordinate3D(i - 20, j, 0);
                 Coordinate3D coordinate4D = new Coordinate3D(i, j + 20, 0);
                 Coordinate3D coordinate5D = new Coordinate3D(i, j - 20, 0);
-                if (isPointInPolygon(coordinateD, modelObject.getVertexes()) &&
-                        isPointInPolygon(coordinate2D, modelObject.getVertexes()) &&
-                        isPointInPolygon(coordinate3D, modelObject.getVertexes()) &&
-                        isPointInPolygon(coordinate4D, modelObject.getVertexes()) &&
-                        isPointInPolygon(coordinate5D, modelObject.getVertexes())
+                if (isPointInPolygon(coordinateD, polygon.getVertexes()) &&
+                        isPointInPolygon(coordinate2D, polygon.getVertexes()) &&
+                        isPointInPolygon(coordinate3D, polygon.getVertexes()) &&
+                        isPointInPolygon(coordinate4D, polygon.getVertexes()) &&
+                        isPointInPolygon(coordinate5D, polygon.getVertexes())
                 ) {
                     return coordinateD;
                 }

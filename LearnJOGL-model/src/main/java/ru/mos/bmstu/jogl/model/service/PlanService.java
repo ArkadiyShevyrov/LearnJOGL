@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import ru.mos.bmstu.jogl.model.model.*;
 import ru.mos.bmstu.jogl.model.utils.ConverterND;
 import ru.mos.bmstu.jogl.model.utils.ModelUtils;
+import ru.mos.bmstu.jogl.model.utils.PlanUtils;
 
 @Slf4j
 @Service
@@ -14,7 +15,7 @@ import ru.mos.bmstu.jogl.model.utils.ModelUtils;
 public class PlanService {
     @Getter
     private PlanEnum planEnum;
-    private Plan currentPlane;
+    private Plan currentPlane = new Plan(new Coordinate3D(0,0,0));
     private Polygon2D currentPolygon;
 
     public void click(float x, float y) {
@@ -59,9 +60,7 @@ public class PlanService {
             return;
         }
         switch (planEnum) {
-            case NEW_POLYGON -> {
-//                ModelUtils.addNewPolygon(currentPlane, currentPolygon);
-            }
+            case NEW_POLYGON -> PlanUtils.addNewPolygon(currentPlane, currentPolygon);
         }
     }
 
@@ -69,15 +68,22 @@ public class PlanService {
         if (planEnum == null) {
             return null;
         }
-        ModelObject modelObject = new ModelObject(0, 0, 0);
+
         switch (planEnum) {
             case NEW_POLYGON -> {
                 if (currentPolygon != null) {
+                    ModelObject modelObject = new ModelObject(0, 0, 0);
                     ModelUtils.addNewPolygon(modelObject, ConverterND.convertTo3D(currentPolygon));
+                    return modelObject;
+                }
+            }
+            case NONE -> {
+                if (currentPlane != null) {
+                    return PlanUtils.convertToModel(currentPlane);
                 }
             }
         }
-        return modelObject;
+        return null;
     }
 
     public void clearAll() {
