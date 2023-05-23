@@ -25,21 +25,18 @@ public class MenuTools extends Menu {
     public void initIcons() {
         icons = new ArrayList<>();
         int index = 0;
-        for (int i = 0; i < StableService.StableEnum.values().length; i++) {
+        for (Enum stableEnum : StableService.StableEnum.values()) {
             ModelIcon modelIcon = new ModelIcon();
             modelIcon.setBorder(new Rectangle(10 + 100 * index++, 10, 80, 80));
-            modelIcon.setIndex(i);
+            modelIcon.setType(stableEnum);
             icons.add(modelIcon);
         }
-
-//        ModelIcon createBorder = new ModelIcon();
-//        createBorder.setBorder(new Rectangle(10 + 100 * index++, 10, 80, 80));
-//        createBorder.setIndex(0);
-//        icons.add(createBorder);
-//        ModelIcon modelIcon = new ModelIcon();
-//        modelIcon.setBorder(new Rectangle(10 + 100 * index++, 10, 80, 80));
-//        modelIcon.setIndex(1);
-//        icons.add(modelIcon);
+        for (Enum subEnum : stableService.getCurrentSubEnums()) {
+            ModelIcon modelIcon = new ModelIcon();
+            modelIcon.setBorder(new Rectangle(10 + 100 * index++, 10, 80, 80));
+            modelIcon.setType(subEnum);
+            icons.add(modelIcon);
+        }
     }
 
     public void draw(GL2 gl) {
@@ -57,7 +54,11 @@ public class MenuTools extends Menu {
             gl.glMatrixMode(GL2.GL_MODELVIEW);
             gl.glLoadIdentity();
 
-            gl.glColor3f(1, 1, 0);
+            if (icon.getType() instanceof StableService.StableEnum) {
+                gl.glColor3f(1, 1, 0);
+            } else {
+                gl.glColor3f(1, 0.5f, 0);
+            }
             if (icon.isCurrent()) {
                 gl.glColor3f(0.3f, 0, 1);
             }
@@ -70,11 +71,15 @@ public class MenuTools extends Menu {
     public void clicked(int x, int y) {
         for (ModelIcon icon : icons) {
             if (MenuUtils.inRectangle(x, y, icon.getBorder())) {
-                System.out.println(icon.getIndex());
-                if (icon.getIndex() == 0) {
-                    stableService.clearAll();
+                Enum type = icon.getType();
+                System.out.println(type);
+                if (type instanceof StableService.StableEnum stableEnum) {
+                    stableService.setStableEnum(stableEnum);
+                } else {
+                    stableService.setSubEnum(type);
                 }
             }
         }
+        initIcons();
     }
 }

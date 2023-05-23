@@ -205,7 +205,7 @@ public class DrawObject {
         int[][] matrix = new int[(border.getWidth() * 2 + 1)][(border.getHeight() * 2 + 1)];
 
         gl.glColor3f(1, 1, 1);
-        if (pixels && modelObject.getVertexes().size() != 0) {
+        if (pixels && modelObject.getEdges().size() > 1) {
             drawEdgesPixels(modelObject, border, matrix, sizePixel);
             Coordinate3D coordinate3D = getCoordinate3D(modelObject);
 
@@ -251,10 +251,10 @@ public class DrawObject {
         for (int i = minX; i < maxX; i++) {
             for (int j = minY; j < maxY; j++) {
                 Coordinate3D coordinateD = new Coordinate3D(i, j, 0);
-                Coordinate3D coordinate2D = new Coordinate3D(i + 10, j, 0);
-                Coordinate3D coordinate3D = new Coordinate3D(i - 10, j, 0);
-                Coordinate3D coordinate4D = new Coordinate3D(i, j + 10, 0);
-                Coordinate3D coordinate5D = new Coordinate3D(i, j - 10, 0);
+                Coordinate3D coordinate2D = new Coordinate3D(i + 20, j, 0);
+                Coordinate3D coordinate3D = new Coordinate3D(i - 20, j, 0);
+                Coordinate3D coordinate4D = new Coordinate3D(i, j + 20, 0);
+                Coordinate3D coordinate5D = new Coordinate3D(i, j - 20, 0);
                 if (isPointInPolygon(coordinateD, modelObject.getVertexes()) &&
                         isPointInPolygon(coordinate2D, modelObject.getVertexes()) &&
                         isPointInPolygon(coordinate3D, modelObject.getVertexes()) &&

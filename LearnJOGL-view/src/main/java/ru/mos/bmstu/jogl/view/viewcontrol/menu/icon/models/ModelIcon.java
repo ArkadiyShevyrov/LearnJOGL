@@ -1,7 +1,6 @@
 package ru.mos.bmstu.jogl.view.viewcontrol.menu.icon.models;
 
 import com.jogamp.nativewindow.util.Rectangle;
-import com.jogamp.opengl.GL2;
 import lombok.Getter;
 import lombok.Setter;
 import ru.mos.bmstu.jogl.model.model.ModelObject;
@@ -13,8 +12,5 @@ public class ModelIcon {
     private ModelObject modelObject;
     private boolean current;
     private int index;
-
-    public void draw(GL2 gl) {
-
-    }
+    private Enum type;
 }

@@ -78,7 +78,10 @@ public class MenuWorld extends Menu {
 //            DrawObject.drawModelObject(gl, drawObject, size, true);
 //        }
 
-        DrawObject.drawModelObject(gl, stableService.getCurrentModelObject(), size, true, border);
+        ModelObject currentModelObject = stableService.getCurrentModelObject();
+        if (currentModelObject != null) {
+            DrawObject.drawModelObject(gl, currentModelObject, size, true, border);
+        }
     }
 
     @Override
