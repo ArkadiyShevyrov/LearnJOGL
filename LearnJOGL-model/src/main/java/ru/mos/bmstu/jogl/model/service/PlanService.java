@@ -72,6 +72,12 @@ public class PlanService {
         return modelObject;
     }
 
+    public void clearAll() {
+        currentVertex = null;
+        currentEdge = null;
+        currentPolygon = null;
+    }
+
     public enum PlanEnum {
         NEW_POLYGON,
     }

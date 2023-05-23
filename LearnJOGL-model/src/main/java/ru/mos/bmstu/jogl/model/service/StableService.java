@@ -7,6 +7,7 @@ import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ru.mos.bmstu.jogl.model.model.ModelObject;
+import java.util.ArrayList;
 
 @Slf4j
 @Service
@@ -41,5 +42,9 @@ public class StableService {
             }
         }
         return null;
+    }
+
+    public void clearAll() {
+        planService.clearAll();
     }
 }

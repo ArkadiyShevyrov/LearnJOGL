@@ -2,6 +2,7 @@ package ru.mos.bmstu.jogl.view.viewcontrol.menu;
 
 import com.jogamp.nativewindow.util.Rectangle;
 import com.jogamp.opengl.GL2;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -18,8 +19,8 @@ import java.util.List;
 public class MenuTools extends Menu {
 
     private List<ModelIcon> icons;
-//    @NonNull
-//    private StableService stableService;
+    @NonNull
+    private StableService stableService;
 
     public void initIcons() {
         icons = new ArrayList<>();
@@ -71,7 +72,7 @@ public class MenuTools extends Menu {
             if (MenuUtils.inRectangle(x, y, icon.getBorder())) {
                 System.out.println(icon.getIndex());
                 if (icon.getIndex() == 0) {
-//                    stableService.setStableEnum();
+                    stableService.clearAll();
                 }
             }
         }

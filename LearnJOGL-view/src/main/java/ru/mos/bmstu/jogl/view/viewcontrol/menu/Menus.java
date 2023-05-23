@@ -28,7 +28,7 @@ public class Menus {
 
 
     public void init() {
-        MenuTools menuTools = new MenuTools();
+        MenuTools menuTools = new MenuTools(stableService);
         MenuWorld menuWorld = new MenuWorld(stableService);
         MenuModels menuModels = new MenuModels(modelService);
         menus = new ArrayList<>();
